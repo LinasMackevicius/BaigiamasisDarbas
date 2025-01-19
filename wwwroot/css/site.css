@@ -1,0 +1,21 @@
+/* Adjust the spacing between the two navigation bars */
+.secondary-nav {
+    margin-top: -29px; /* Controls vertical spacing between navbars */
+    margin-bottom: 10px;
+}
+
+    /* Center-align links in the secondary nav and control their spacing */
+    .secondary-nav .container {
+        display: flex;
+        justify-content: left; /* Center the links */
+    }
+
+    .secondary-nav .nav-link {
+        margin: 0 10px; /* Space between links */
+        padding: 5px 10px; /* Adjust padding for a more compact look */
+    }
+body {
+    background-color: #f2f2f2; /* Light grey color */
+    color: #333; /* Optional: Dark text color for contrast */
+}
+

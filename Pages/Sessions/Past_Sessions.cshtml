@@ -1,0 +1,57 @@
+﻿@page
+@model projektas.Pages.Sessions.Past_SessionsModel
+@{
+    ViewData["Title"] = "Past Sessions";
+}
+
+<h2>Past Sessions</h2>
+
+<!-- Filter Form -->
+<form method="get" class="mb-4">
+    <div class="row">
+        <div class="col-md-3">
+            <label for="filterDate" class="form-label">Filter by Date</label>
+            <input type="date" id="filterDate" name="filterDate" class="form-control" value="@Model.FilterDate?.ToString("yyyy-MM-dd")" />
+        </div>
+        <div class="col-md-3">
+            <label for="filterPlace" class="form-label">Filter by Place</label>
+            <input type="text" id="filterPlace" name="filterPlace" class="form-control" value="@Model.FilterPlace" placeholder="Enter place" />
+        </div>
+        <div class="col-md-3 align-self-end">
+            <button type="submit" class="btn btn-primary">Apply Filters</button>
+            <a href="/Sessions/Past_Sessions" class="btn btn-secondary">Clear Filters</a> <!-- Clear Filters button -->
+        </div>
+    </div>
+</form>
+
+<div class="accordion" id="sessionsAccordion">
+    @foreach (var session in Model.Sessions)
+    {
+        var sessionId = $"session-{session.Id}";
+
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="heading-@sessionId">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@sessionId" aria-expanded="false" aria-controls="collapse-@sessionId">
+                    <strong>@session.Date.ToString("yyyy/MM/dd")</strong> - @session.Place - @session.Goals
+                </button>
+            </h2>
+            <div id="collapse-@sessionId" class="accordion-collapse collapse" aria-labelledby="heading-@sessionId" data-bs-parent="#sessionsAccordion">
+                <div class="accordion-body">
+                    <h5>Conversations:</h5>
+                    <ul>
+                        @foreach (var conversation in session.Conversations)
+                        {
+                            <li>
+                                <strong>Person's Name:</strong> @conversation.PersonName<br />
+                                <strong>Duration:</strong> @conversation.Duration minutes<br />
+                                <strong>Success Rating:</strong> @conversation.SuccessRating<br />
+                                <strong>Comment:</strong> @conversation.Comment
+                            </li>
+                            <hr />
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,223 @@
+﻿@page
+@model projektas.Pages.Sessions.Active_SessionModel
+@{
+    ViewData["Title"] = "Active Session";
+}
+
+<h2>Active Session</h2>
+
+<form method="post" asp-page-handler="SaveSession" id="saveSessionForm">
+    <div class="session-info">
+        <h4>Session Information</h4>
+
+        <div class="mb-3 col-12">
+            <label for="date" class="form-label">Date</label>
+
+            <!-- Hidden date picker input for selecting date -->
+            <input type="date" asp-for="SessionDate" id="date" class="form-control" onchange="updateFormattedDate()" style="display: none;" />
+
+            <!-- Read-only field to display the formatted date -->
+            <input type="text" id="formattedDate" class="form-control" readonly />
+
+            <!-- Button to trigger the date picker calendar -->
+            <button type="button" class="btn btn-light" onclick="document.getElementById('date').showPicker()">📅</button>
+        </div>
+
+        <div class="mb-3 col-12">
+            <label for="place" class="form-label">Place</label>
+            <input type="text" id="place" asp-for="Place" class="form-control" placeholder="Enter location" required />
+        </div>
+
+        <div class="mb-3 col-12">
+            <label for="goals" class="form-label">Goals</label>
+            <textarea id="goals" asp-for="Goals" class="form-control" rows="2" placeholder="Describe your goals for this session" required></textarea>
+        </div>
+    </div>
+
+    <div class="conversations-list">
+        <h4>Conversations</h4>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Person's Name</th>
+                        <th>Duration (minutes)</th>
+                        <th>Success Rating</th>
+                        <th>Comment</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="conversationsTableBody">
+                    <!-- Rows will be added dynamically here -->
+                </tbody>
+            </table>
+        </div>
+        <button type="button" class="btn btn-primary" onclick="addConversationRow()">+ Add Conversation</button>
+    </div>
+
+    <input type="hidden" id="conversationDataInput" name="ConversationsJson" />
+    <div class="session-actions d-grid gap-2 d-md-flex justify-content-md-end">
+        <button type="button" class="btn btn-success mb-2" onclick="saveSession()">Save Session</button>
+    </div>
+</form>
+
+<form method="post" asp-page-handler="EndSession" id="endSessionForm">
+    <input type="hidden" id="conversationDataInput" name="ConversationsJson" />
+    <button type="button" class="btn btn-danger mb-2" onclick="endSession()">End Session</button>
+</form>
+
+<!-- Comment Edit Modal -->
+<div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="commentModalLabel">Edit Comment</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <textarea id="modalCommentText" class="form-control" rows="5"></textarea>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="saveComment()">Save Comment</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+    let conversationData = []; // Store conversation data locally
+    let currentCommentInput = null;
+
+    // Load data from Local Storage on page load (for temporary saving)
+    window.addEventListener('load', () => {
+        const savedData = JSON.parse(localStorage.getItem('activeSessionData'));
+        if (savedData) {
+            document.getElementById('date').value = savedData.date;
+            document.getElementById('place').value = savedData.place;
+            document.getElementById('goals').value = savedData.goals;
+            conversationData = savedData.conversations || [];
+            renderConversations();
+        }
+    });
+
+    // Save the current session data to Local Storage when "Save Session" is clicked
+    function saveSession() {
+        document.getElementById("conversationDataInput").value = JSON.stringify(conversationData);
+
+        const sessionData = {
+            date: document.getElementById('date').value,
+            place: document.getElementById('place').value,
+            goals: document.getElementById('goals').value,
+            conversations: conversationData
+        };
+
+        localStorage.setItem('activeSessionData', JSON.stringify(sessionData));
+        console.log("Session temporarily saved in Local Storage:", sessionData);
+    }
+
+    // Function to send data to the server and clear Local Storage when "End Session" is clicked
+    function endSession() {
+        // Gather current data from page fields
+        document.getElementById("conversationDataInput").value = JSON.stringify(conversationData);
+
+        document.getElementById("saveSessionForm").submit(); // This triggers the form submission
+
+        // Clear Local Storage after submitting
+        localStorage.removeItem('activeSessionData');
+        console.log("End Session: Data submitted and Local Storage cleared.");
+    }
+
+    // Helper function to re-render the conversation list on the page
+    function renderConversations() {
+        const tableBody = document.getElementById('conversationsTableBody');
+        tableBody.innerHTML = ''; // Clear all existing rows
+
+        // Loop over each item in conversationData and add a row for it
+        conversationData.forEach((conversation, index) => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><input type="text" class="form-control" value="${conversation.personName}" oninput="updateConversation(${index}, 'personName', this.value)"></td>
+                <td><input type="number" class="form-control" value="${conversation.duration}" oninput="updateConversation(${index}, 'duration', this.value)"></td>
+                <td>
+                    <select class="form-control" onchange="updateConversation(${index}, 'successRating', this.value)">
+                        <option value="1" ${conversation.successRating == 1 ? 'selected' : ''}>1 - Unsuccessful</option>
+                        <option value="2" ${conversation.successRating == 2 ? 'selected' : ''}>2</option>
+                        <option value="3" ${conversation.successRating == 3 ? 'selected' : ''}>3 - Neutral</option>
+                        <option value="4" ${conversation.successRating == 4 ? 'selected' : ''}>4</option>
+                        <option value="5" ${conversation.successRating == 5 ? 'selected' : ''}>5 - Successful</option>
+                    </select>
+                </td>
+                <td><input type="text" class="form-control" value="${conversation.comment}" oninput="updateConversation(${index}, 'comment', this.value)"></td>
+                <td><button type="button" class="btn btn-danger" onclick="deleteRow(this, ${index})">Delete</button></td>
+            `;
+            tableBody.appendChild(row); // Append row to table
+        });
+    }
+
+
+    // Function to add a new conversation row
+    function addConversationRow() {
+        const conversation = {
+            personName: '',
+            duration: 0,
+            successRating: 1,
+            comment: ''
+        };
+        conversationData.push(conversation);
+
+        // Re-render the conversation rows with the new addition
+        renderConversations();
+    }
+
+    // Function to update conversation data when any field changes
+    function updateConversation(index, field, value) {
+        conversationData[index][field] = value;
+        document.getElementById("conversationDataInput").value = JSON.stringify(conversationData);
+    }
+
+    // Function to delete a conversation row and update conversation data
+    function deleteRow(button, index) {
+        conversationData.splice(index, 1);
+        renderConversations(); // Re-render the rows after deletion
+    }
+
+    // Function to save edited comment from modal
+    function saveComment() {
+        if (currentCommentInput) {
+            currentCommentInput.value = document.getElementById('modalCommentText').value;
+        }
+        var myModalEl = document.getElementById('commentModal');
+        var modal = bootstrap.Modal.getInstance(myModalEl);
+        modal.hide();
+    }
+
+
+    // Function to set the formatted date on page load or date change
+    function initializeDate() {
+        // Set current date if SessionDate is empty
+        const dateInput = document.getElementById('date');
+        if (!dateInput.value) {
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.value = today;
+        }
+
+        // Display formatted date
+        updateFormattedDate();
+    }
+
+    // Function to update the formatted date field based on date picker value
+    function updateFormattedDate() {
+        const dateInput = document.getElementById('date');
+        const formattedDateInput = document.getElementById('formattedDate');
+        const date = new Date(dateInput.value);
+        const formattedDate = date.getFullYear() + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + String(date.getDate()).padStart(2, '0');
+        formattedDateInput.value = formattedDate;
+    }
+
+    // Initialize the date field on page load
+    window.addEventListener('load', initializeDate);
+
+</script>
+

@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Communication Skills Tracker</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/projektas.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        @if (!Context.Request.Path.Value.Contains("/Account/Login") && !Context.Request.Path.Value.Contains("/Account/Register"))
+        {
+            <!-- Primary Navigation Bar -->
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+                <div class="container d-flex justify-content-between">
+                    <!-- Left-aligned navigation links -->
+                    <div class="navbar-nav">
+                        <a class="nav-link text-dark" asp-page="/Index">Home</a>
+                        <a class="nav-link text-dark" asp-page="/Sessions/Active_Session">Sessions</a>
+                        <a class="nav-link text-dark" asp-page="/Statistics/Monthly_Report">Statistics</a>
+                    </div>
+
+                    <!-- Right-aligned login/logout section -->
+                    @if (Context.Session.GetInt32("UserId") != null)
+                    {
+                        <div class="d-flex align-items-center">
+                            <span class="navbar-text text-muted me-3">
+                                Logged in: @Context.Session.GetString("Username")
+                            </span>
+                            <a asp-page="/Account/Logout" class="btn btn-outline-secondary btn-sm">Logout</a>
+                        </div>
+                    }
+                </div>
+            </nav>
+
+
+            <!-- Secondary Navigation Bar for Subpages -->
+            
+                var path = Context.Request.Path.ToString().ToLower();
+            
+
+            @if (path.StartsWith("/sessions"))
+            {
+                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom secondary-nav">
+                    <div class="container">
+                        <a class="nav-link text-dark" asp-page="/Sessions/Active_Session">Active Session</a>
+                        <a class="nav-link text-dark" asp-page="/Sessions/Past_Sessions">Past Sessions</a>
+                    </div>
+                </nav>
+            }
+            else if (path.StartsWith("/statistics"))
+            {
+                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom secondary-nav">
+                    <div class="container">
+                        @* <a class="nav-link text-dark" asp-page="/Statistics/Session_Report">Session Report</a> *@
+                        <a class="nav-link text-dark" asp-page="/Statistics/Monthly_Report">Monthly Report</a>
+                    </div>
+                </nav>
+            }
+        }
+    </header>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+   
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

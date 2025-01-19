@@ -1,0 +1,75 @@
+﻿@page
+@model projektas.Pages.IndexModel
+@{
+    ViewData["Title"] = "Welcome to Your Project!";
+}
+
+<div class="container mt-5">
+    <!-- Welcome Banner -->
+    <div class="jumbotron text-center bg-light p-4 rounded mb-5 shadow-sm">
+        <h1 class="display-5">Welcome to Communication Tracker!</h1>
+        <p class="lead text-muted">A tool designed to help you improve and reflect on your communication skills through self-assessment and tracking.</p>
+    </div>
+
+    <!-- About Section -->
+    <div class="row mb-5">
+        <div class="col-md-8 mx-auto text-center">
+            <h2>About This Project</h2>
+            <p class="text-muted mt-3">
+                Communication Tracker enables you to monitor and improve your interactions by logging your conversations, setting goals, and analyzing your progress over time.
+            </p>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row text-center mb-5">
+        <h3 class="mb-4">What We Offer</h3>
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Track Conversations</h5>
+                    <p class="card-text text-muted">Log each conversation you have, including who you spoke to, how long you spoke, and your success rating.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Analyze Your Progress</h5>
+                    <p class="card-text text-muted">Use statistics to understand trends over time, identify strengths, and see areas for improvement.</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title">Set Goals</h5>
+                    <p class="card-text text-muted">Define goals for each session to stay focused and intentional in your conversations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- How to Use Section -->
+    <div class="row mb-5">
+        <div class="col-md-8 mx-auto">
+            <h3 class="text-center mb-4">How to Use</h3>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    <strong>1. Start a Session:</strong> Head to the "Sessions" page to begin a new session. Add conversations as you go, logging key details for each interaction.
+                </li>
+                <li class="list-group-item">
+                    <strong>2. Review Your Past Sessions:</strong> Use the "Past Sessions" page to revisit past interactions, check details, and reflect on your progress.
+                </li>
+                <li class="list-group-item">
+                    <strong>3. Analyze Your Performance:</strong> On the "Statistics" page, view monthly reports with insights on conversation frequency and success ratings.
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Call-to-Action Section -->
+    <div class="text-center mt-5">
+        <a class="btn btn-primary btn-lg" asp-page="/Sessions/Active_Session">Get Started</a>
+    </div>
+</div>

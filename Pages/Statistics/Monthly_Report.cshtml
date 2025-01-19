@@ -1,0 +1,78 @@
+﻿@page
+@model projektas.Pages.Statistics.Monthly_ReportModel
+@{
+    ViewData["Title"] = "Monthly Report";
+}
+
+<h2>Monthly Report</h2>
+
+<div>
+    <canvas id="conversationsChart"></canvas>
+</div>
+<div>
+    <canvas id="successRatingChart"></canvas>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const labels = @Html.Raw(Json.Serialize(Model.LastSixMonths));
+
+        const conversationsData = {
+            labels: labels,
+            datasets: [{
+                label: 'Number of People Talked to',
+                data: @Html.Raw(Json.Serialize(Model.MonthlyConversationCounts)),
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        const successRatingData = {
+            labels: labels,
+            datasets: [{
+                label: 'Average Success Rating',
+                data: @Html.Raw(Json.Serialize(Model.MonthlyAverageSuccessRatings)),
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                borderColor: 'rgba(153, 102, 255, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        const configConversations = {
+            type: 'bar',
+            data: conversationsData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Number of People'
+                        }
+                    }
+                }
+            }
+        };
+
+        const configSuccessRating = {
+            type: 'bar',
+            data: successRatingData,
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Average Success Rating'
+                        }
+                    }
+                }
+            }
+        };
+
+        new Chart(document.getElementById('conversationsChart'), configConversations);
+        new Chart(document.getElementById('successRatingChart'), configSuccessRating);
+    </script>
+}
