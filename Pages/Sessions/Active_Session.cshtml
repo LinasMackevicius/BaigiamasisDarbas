@@ -105,7 +105,6 @@
     // Save the current session data to Local Storage when "Save Session" is clicked
     function saveSession() {
         document.getElementById("conversationDataInput").value = JSON.stringify(conversationData);
-
         const sessionData = {
             date: document.getElementById('date').value,
             place: document.getElementById('place').value,
@@ -115,7 +114,32 @@
 
         localStorage.setItem('activeSessionData', JSON.stringify(sessionData));
         console.log("Session temporarily saved in Local Storage:", sessionData);
+
+        showPopupMessage('Saved to a browser!');
     }
+
+    function showPopupMessage(message) {
+        const popup = document.createElement('div');
+        popup.style.position = 'absolute';
+        popup.style.bottom = '70px'; // Adjust this value as needed to position above the button
+        popup.style.left = '70%';
+        popup.style.transform = 'translateX(-50%)';
+        popup.style.backgroundColor = '#d4edda';
+        popup.style.color = '#155724';
+        popup.style.padding = '10px 20px';
+        popup.style.borderRadius = '5px';
+        popup.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.1)';
+        popup.style.zIndex = '1000';
+        popup.style.fontWeight = 'bold';
+        popup.innerText = message;
+        document.body.appendChild(popup);
+
+        setTimeout(() => {
+            popup.remove();
+        }, 3000);
+    }
+
+
 
     // Function to send data to the server and clear Local Storage when "End Session" is clicked
     function endSession() {
@@ -128,6 +152,9 @@
         localStorage.removeItem('activeSessionData');
         console.log("End Session: Data submitted and Local Storage cleared.");
     }
+
+
+
 
     // Helper function to re-render the conversation list on the page
     function renderConversations() {
