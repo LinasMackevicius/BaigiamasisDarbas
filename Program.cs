@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using projektas.Data;
 using Microsoft.AspNetCore.Session;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,6 +17,7 @@ builder.Services.AddSession(options =>
 });
 
 var app = builder.Build();
+
 
 if (!app.Environment.IsDevelopment())
 {

@@ -23,8 +23,16 @@
             <button type="button" class="btn btn-light" onclick="document.getElementById('date').showPicker()">📅</button>
         </div>
 
+        <div class="mb-3">
+            <label asp-for="SessionType" class="form-label">Session Type</label>
+            <select asp-for="SessionType" asp-items="Html.GetEnumSelectList<projektas.Models.SessionType>()" class="form-control">
+                <option value="">-- Select Session Type --</option>
+            </select>
+            <span asp-validation-for="SessionType" class="text-danger"></span>
+        </div>
+
         <div class="mb-3 col-12">
-            <label for="place" class="form-label">Place</label>
+            <label for="place" class="form-label">Location</label>
             <input type="text" id="place" asp-for="Place" class="form-control" placeholder="Enter location" required />
         </div>
 
@@ -115,14 +123,14 @@
         localStorage.setItem('activeSessionData', JSON.stringify(sessionData));
         console.log("Session temporarily saved in Local Storage:", sessionData);
 
-        showPopupMessage('Saved to a browser!');
+        showPopupMessage('Saved to browser local storage!');
     }
 
     function showPopupMessage(message) {
         const popup = document.createElement('div');
         popup.style.position = 'absolute';
-        popup.style.bottom = '70px'; // Adjust this value as needed to position above the button
-        popup.style.left = '70%';
+        popup.style.bottom = '80%'; // Adjust this value as needed to position above the button
+        popup.style.left = '50%';
         popup.style.transform = 'translateX(-50%)';
         popup.style.backgroundColor = '#d4edda';
         popup.style.color = '#155724';

@@ -72,6 +72,9 @@ namespace projektas.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("SessionType")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
@@ -106,7 +109,7 @@ namespace projektas.Migrations
             modelBuilder.Entity("projektas.Models.Conversation", b =>
                 {
                     b.HasOne("projektas.Models.Session", "Session")
-                        .WithMany()
+                        .WithMany("Conversations")
                         .HasForeignKey("SessionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -123,6 +126,11 @@ namespace projektas.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("projektas.Models.Session", b =>
+                {
+                    b.Navigation("Conversations");
                 });
 #pragma warning restore 612, 618
         }

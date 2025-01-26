@@ -3,6 +3,12 @@ using System.ComponentModel.DataAnnotations;
 
 namespace projektas.Models
 {
+    public enum SessionType 
+    {
+        Day,
+        Night
+    }
+
     public class Session
     {
         [Key]
@@ -20,5 +26,8 @@ namespace projektas.Models
         public User User { get; set; } // Foreign key relationship to User
 
         public List<Conversation> Conversations { get; set; } // Navigation property
+
+        [Required]
+        public SessionType SessionType { get; set; } // Add this field
     }
 }

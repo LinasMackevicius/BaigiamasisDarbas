@@ -25,6 +25,9 @@ namespace projektas.Pages.Sessions
         public DateTime SessionDate { get; set; }
 
         [BindProperty]
+        public SessionType SessionType { get; set; }
+
+        [BindProperty]
         public string Place { get; set; }
 
         [BindProperty]
@@ -50,7 +53,7 @@ namespace projektas.Pages.Sessions
             }
 
             var session = new Session
-            {
+            {   SessionType = SessionType,
                 Date = SessionDate,
                 Place = Place,
                 Goals = Goals,
@@ -83,8 +86,6 @@ namespace projektas.Pages.Sessions
             return RedirectToPage("/Sessions/Active_Session");
         }
 
-
-
         public async Task<IActionResult> OnPostEndSessionAsync()
         {
             Console.WriteLine("OnPostEndSessionAsync called");
@@ -98,15 +99,5 @@ namespace projektas.Pages.Sessions
 
             return RedirectToPage("/Sessions/Active_Session");
         }
-
     }
-
-    public class ConversationInputModel
-    {
-        public string PersonName { get; set; }
-        public int Duration { get; set; }
-        public int SuccessRating { get; set; }
-        public string Comment { get; set; }
-    }
-
 }
