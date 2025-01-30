@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace projektas.Migrations
 {
     /// <inheritdoc />
-    public partial class AddSessionTypeToSession : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,7 +26,7 @@ namespace projektas.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sessions",
+                name: "SessionsList",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -39,9 +39,9 @@ namespace projektas.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sessions", x => x.Id);
+                    table.PrimaryKey("PK_SessionsList", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Sessions_Users_UserId",
+                        name: "FK_SessionsList_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -66,9 +66,9 @@ namespace projektas.Migrations
                 {
                     table.PrimaryKey("PK_Conversations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Conversations_Sessions_SessionId",
+                        name: "FK_Conversations_SessionsList_SessionId",
                         column: x => x.SessionId,
-                        principalTable: "Sessions",
+                        principalTable: "SessionsList",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -79,8 +79,8 @@ namespace projektas.Migrations
                 column: "SessionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Sessions_UserId",
-                table: "Sessions",
+                name: "IX_SessionsList_UserId",
+                table: "SessionsList",
                 column: "UserId");
         }
 
@@ -91,7 +91,7 @@ namespace projektas.Migrations
                 name: "Conversations");
 
             migrationBuilder.DropTable(
-                name: "Sessions");
+                name: "SessionsList");
 
             migrationBuilder.DropTable(
                 name: "Users");

@@ -82,7 +82,7 @@ namespace projektas.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Sessions");
+                    b.ToTable("SessionsList");
                 });
 
             modelBuilder.Entity("projektas.Models.User", b =>

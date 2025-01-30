@@ -29,7 +29,7 @@ namespace projektas.Pages.Statistics
 
             var sixMonthsAgo = DateTime.Now.AddMonths(-6);
 
-            var sessions = await _context.Sessions
+            var sessions = await _context.SessionsList
                 .Where(s => s.UserId == userId && s.Date >= sixMonthsAgo)
                 .Include(s => s.Conversations)
                 .ToListAsync();

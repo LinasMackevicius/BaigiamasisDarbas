@@ -60,7 +60,7 @@ namespace projektas.Pages.Sessions
                 UserId = HttpContext.Session.GetInt32("UserId") ?? 0
             };
 
-            _context.Sessions.Add(session);
+            _context.SessionsList.Add(session);
             await _context.SaveChangesAsync();
 
             if (!string.IsNullOrEmpty(ConversationsJson))

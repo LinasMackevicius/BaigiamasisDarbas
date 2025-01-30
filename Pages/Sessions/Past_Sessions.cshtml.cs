@@ -19,7 +19,7 @@ namespace projektas.Pages.Sessions
             _context = context;
         }
 
-        public List<Session> Sessions { get; set; }
+        public List<Session> SessionsList { get; set; }
 
         [BindProperty(SupportsGet = true)]
         public DateTime? FilterDate { get; set; }  // Filter for date
@@ -29,7 +29,7 @@ namespace projektas.Pages.Sessions
 
         public async Task OnGetAsync()
         {
-            var query = _context.Sessions
+            var query = _context.SessionsList
                 .Include(s => s.Conversations)
                 .Where(s => s.UserId == HttpContext.Session.GetInt32("UserId")) // Only the logged-in user's sessions
                 .OrderByDescending(s => s.Date)
@@ -47,7 +47,7 @@ namespace projektas.Pages.Sessions
                 query = query.Where(s => EF.Functions.Like(s.Place, $"%{FilterPlace}%"));
             }
 
-            Sessions = await query.ToListAsync();
+            SessionsList = await query.ToListAsync();
         }
     }
 }

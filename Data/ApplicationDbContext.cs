@@ -12,7 +12,7 @@ namespace projektas.Data
 
         // Define tables as DbSet properties
         public DbSet<User> Users { get; set; }
-        public DbSet<Session> Sessions { get; set; }
+        public DbSet<Session> SessionsList { get; set; }
         public DbSet<Conversation> Conversations { get; set; }
     }
 }
