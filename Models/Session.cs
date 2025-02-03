@@ -28,6 +28,8 @@ namespace projektas.Models
         public List<Conversation> Conversations { get; set; } // Navigation property
 
         [Required]
-        public SessionType SessionType { get; set; } // Add this field
+        public SessionType SessionType { get; set; } // Add this field\
+
+        public TimeOnly TimeOfADayStart { get; set; }
     }
 }

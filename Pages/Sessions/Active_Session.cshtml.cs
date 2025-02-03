@@ -28,6 +28,9 @@ namespace projektas.Pages.Sessions
         public SessionType SessionType { get; set; }
 
         [BindProperty]
+        public TimeOnly TimeOfADayStart { get; set; }
+
+        [BindProperty]
         public string Place { get; set; }
 
         [BindProperty]
@@ -54,6 +57,7 @@ namespace projektas.Pages.Sessions
 
             var session = new Session
             {   SessionType = SessionType,
+                TimeOfADayStart = TimeOfADayStart,
                 Date = SessionDate,
                 Place = Place,
                 Goals = Goals,

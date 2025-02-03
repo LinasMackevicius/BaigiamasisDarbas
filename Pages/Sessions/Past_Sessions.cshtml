@@ -27,16 +27,16 @@
 <div class="accordion" id="sessionsAccordion">
     @*   
         @- prasideda C# kodas;
-        foreach - ciklas, kuris paima kiekvieną session objektą iš Model.Sessions sąrašo.
+        foreach - ciklas, kuris paima kiekvieną session objektą iš Model.SessionsList sąrašo.
     *@
     @foreach (var session in Model.SessionsList)
     {
-        var sessionId = $"session-{session.Id}";
+        string sessionId = $"session-{session.Id}";
 
         <div class="accordion-item">
             <h2 class="accordion-header" id="heading-@sessionId">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@sessionId" aria-expanded="false" aria-controls="collapse-@sessionId">
-                    <strong>@session.Date.ToString("yyyy/MM/dd")</strong> - @session.SessionType - @session.Place - @session.Goals
+                    <strong>@session.Date.ToString("yyyy.MM.dd")</strong> - @session.SessionType - @session.Place - @session.Goals
                 </button>
             </h2>
 
@@ -50,7 +50,8 @@
                                 <strong>Person's Name:</strong> @conversation.PersonName<br />
                                 <strong>Duration:</strong> @conversation.Duration minutes<br />
                                 <strong>Success Rating:</strong> @conversation.SuccessRating<br />
-                                <strong>Comment:</strong> @conversation.Comment
+                                <strong>Comment:</strong> @conversation.Comment <br />
+                                <br />
                             </li>
                         }
                     </ul>
