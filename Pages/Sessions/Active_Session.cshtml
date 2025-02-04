@@ -1,5 +1,7 @@
 ﻿@page
 @model projektas.Pages.Sessions.Active_SessionModel
+<link rel="stylesheet" href="~/css/styles.css" asp-append-version="true">
+
 @{
     ViewData["Title"] = "Active Session";
 }
@@ -25,19 +27,16 @@
 
         <div class="mb-3">
             <label asp-for="SessionType" class="form-label">Session Type</label>
-            <select asp-for="SessionType" asp-items="Html.GetEnumSelectList<projektas.Models.SessionType>()" class="form-control w-50">
+            <select asp-for="SessionType" asp-items="Html.GetEnumSelectList<projektas.Models.SessionType>()" class="form-control w-50" required>
                 <option value="">-- Select Session Type --</option>
             </select>
             <span asp-validation-for="SessionType" class="text-danger"></span>
         </div>
        
-
-        @* Vartotojas turi pasirinkti paros laiką, kuriuo vyko sesija *@
+        @* User is able to pick a session time start *@
         <div class="mb-3">
             <label asp-for="TimeOfADayStart" class="form-label">Select Time Of A Day</label>
-
-            <input type="time" asp-for="TimeOfADayStart" class="form-control w-50" step="60" />
-            
+            <input type="time" asp-for="TimeOfADayStart" class="form-control w-50" step="60" required />
             <span asp-validation-for="TimeOfADayStart" class="text-danger"></span>
         </div>
 
@@ -48,7 +47,7 @@
 
         <div class="mb-3 col-12">
             <label for="goals" class="form-label">Goals</label>
-            <textarea id="goals" asp-for="Goals" class="form-control" rows="2" placeholder="Describe your goals for this session" required></textarea>
+            <textarea id="goals" asp-for="Goals" class="form-control" rows="2" placeholder="Describe your intention for the session" required></textarea>
         </div>
     </div>
 
@@ -72,6 +71,14 @@
         </div>
         <button type="button" class="btn btn-primary" onclick="addConversationRow()">+ Add Conversation</button>
     </div>
+
+    <!-- Custom Right-Click Dropdown -->
+    <div id="customMenu" class="custom-menu">
+        <div class="menu-item" onclick="addConversationRow()">Add Conversation</div>
+        <div class="menu-item" onclick="alert('Option 2 Selected')">Option 2</div>
+        <div class="menu-item" onclick="alert('Option 3 Selected')">Option 3</div>
+    </div>
+
 
     <input type="hidden" id="conversationDataInput" name="ConversationsJson" />
     <div class="session-actions d-grid gap-2 d-md-flex justify-content-md-end">
@@ -104,56 +111,55 @@
 </div>
 
 <script>
-
     let conversationData = []; // Store conversation data locally
     let currentCommentInput = null;
 
     // Load data from Local Storage on page load (for temporary saving)
     window.addEventListener('load', () => {
         const savedData = JSON.parse(localStorage.getItem('activeSessionData'));
-        if (savedData) {
-            document.getElementById('date').value = savedData.date;
-            document.getElementById('place').value = savedData.place;
-            document.getElementById('goals').value = savedData.goals;
-            conversationData = savedData.conversations || [];
-            renderConversations();
+    if (savedData) {
+        document.getElementById('date').value = savedData.date;
+    document.getElementById('place').value = savedData.place;
+    document.getElementById('goals').value = savedData.goals;
+    conversationData = savedData.conversations || [];
+    renderConversations();
         }
     });
 
     // Save the current session data to Local Storage when "Save Session" is clicked
     function saveSession() {
         document.getElementById("conversationDataInput").value = JSON.stringify(conversationData);
-        const sessionData = {
-            date: document.getElementById('date').value,
-            place: document.getElementById('place').value,
-            goals: document.getElementById('goals').value,
-            conversations: conversationData
+    const sessionData = {
+        date: document.getElementById('date').value,
+    place: document.getElementById('place').value,
+    goals: document.getElementById('goals').value,
+    conversations: conversationData
         };
 
-        localStorage.setItem('activeSessionData', JSON.stringify(sessionData));
-        console.log("Session temporarily saved in Local Storage:", sessionData);
+    localStorage.setItem('activeSessionData', JSON.stringify(sessionData));
+    console.log("Session temporarily saved in Local Storage:", sessionData);
 
-        showPopupMessage('Saved to browser local storage!');
+    showPopupMessage('Saved to browser local storage!');
     }
 
     function showPopupMessage(message) {
         const popup = document.createElement('div');
-        popup.style.position = 'absolute';
-        popup.style.bottom = '80%'; // Adjust this value as needed to position above the button
-        popup.style.left = '50%';
-        popup.style.transform = 'translateX(-50%)';
-        popup.style.backgroundColor = '#d4edda';
-        popup.style.color = '#155724';
-        popup.style.padding = '10px 20px';
-        popup.style.borderRadius = '5px';
-        popup.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.1)';
-        popup.style.zIndex = '1000';
-        popup.style.fontWeight = 'bold';
-        popup.innerText = message;
-        document.body.appendChild(popup);
+    popup.style.position = 'absolute';
+    popup.style.bottom = '80%'; // Adjust this value as needed to position above the button
+    popup.style.left = '50%';
+    popup.style.transform = 'translateX(-50%)';
+    popup.style.backgroundColor = '#d4edda';
+    popup.style.color = '#155724';
+    popup.style.padding = '10px 20px';
+    popup.style.borderRadius = '5px';
+    popup.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.1)';
+    popup.style.zIndex = '1000';
+    popup.style.fontWeight = 'bold';
+    popup.innerText = message;
+    document.body.appendChild(popup);
 
         setTimeout(() => {
-            popup.remove();
+        popup.remove();
         }, 3000);
     }
 
@@ -164,11 +170,11 @@
         // Gather current data from page fields
         document.getElementById("conversationDataInput").value = JSON.stringify(conversationData);
 
-        document.getElementById("saveSessionForm").submit(); // This triggers the form submission
+    document.getElementById("saveSessionForm").submit(); // This triggers the form submission
 
-        // Clear Local Storage after submitting
-        localStorage.removeItem('activeSessionData');
-        console.log("End Session: Data submitted and Local Storage cleared.");
+    // Clear Local Storage after submitting
+    localStorage.removeItem('activeSessionData');
+    console.log("End Session: Data submitted and Local Storage cleared.");
     }
 
 
@@ -177,27 +183,27 @@
     // Helper function to re-render the conversation list on the page
     function renderConversations() {
         const tableBody = document.getElementById('conversationsTableBody');
-        tableBody.innerHTML = ''; // Clear all existing rows
+    tableBody.innerHTML = ''; // Clear all existing rows
 
         // Loop over each item in conversationData and add a row for it
         conversationData.forEach((conversation, index) => {
             const row = document.createElement('tr');
-            row.innerHTML = `
-                <td><input type="text" class="form-control" value="${conversation.personName}" oninput="updateConversation(${index}, 'personName', this.value)"></td>
-                <td><input type="number" class="form-control" value="${conversation.duration}" oninput="updateConversation(${index}, 'duration', this.value)"></td>
-                <td>
-                    <select class="form-control" onchange="updateConversation(${index}, 'successRating', this.value)">
-                        <option value="1" ${conversation.successRating == 1 ? 'selected' : ''}>1 - Unsuccessful</option>
-                        <option value="2" ${conversation.successRating == 2 ? 'selected' : ''}>2</option>
-                        <option value="3" ${conversation.successRating == 3 ? 'selected' : ''}>3 - Neutral</option>
-                        <option value="4" ${conversation.successRating == 4 ? 'selected' : ''}>4</option>
-                        <option value="5" ${conversation.successRating == 5 ? 'selected' : ''}>5 - Successful</option>
-                    </select>
-                </td>
-                <td><input type="text" class="form-control" value="${conversation.comment}" oninput="updateConversation(${index}, 'comment', this.value)"></td>
-                <td><button type="button" class="btn btn-danger" onclick="deleteRow(this, ${index})">Delete</button></td>
-            `;
-            tableBody.appendChild(row); // Append row to table
+    row.innerHTML = `
+    <td><input type="text" class="form-control" value="${conversation.personName}" oninput="updateConversation(${index}, 'personName', this.value)"></td>
+    <td><input type="number" class="form-control" value="${conversation.duration}" oninput="updateConversation(${index}, 'duration', this.value)"></td>
+    <td>
+        <select class="form-control" onchange="updateConversation(${index}, 'successRating', this.value)">
+            <option value="1" ${conversation.successRating == 1 ? 'selected' : ''}>1 - Unsuccessful</option>
+            <option value="2" ${conversation.successRating == 2 ? 'selected' : ''}>2</option>
+            <option value="3" ${conversation.successRating == 3 ? 'selected' : ''}>3 - Neutral</option>
+            <option value="4" ${conversation.successRating == 4 ? 'selected' : ''}>4</option>
+            <option value="5" ${conversation.successRating == 5 ? 'selected' : ''}>5 - Successful</option>
+        </select>
+    </td>
+    <td><input type="text" class="form-control" value="${conversation.comment}" oninput="updateConversation(${index}, 'comment', this.value)"></td>
+    <td><button type="button" class="btn btn-danger" onclick="deleteRow(this, ${index})">Delete</button></td>
+    `;
+    tableBody.appendChild(row); // Append row to table
         });
     }
 
@@ -205,37 +211,37 @@
     // Function to add a new conversation row
     function addConversationRow() {
         const conversation = {
-            personName: '',
-            duration: 0,
-            successRating: 1,
-            comment: ''
+        personName: '',
+    duration: 0,
+    successRating: 1,
+    comment: ''
         };
-        conversationData.push(conversation);
+    conversationData.push(conversation);
 
-        // Re-render the conversation rows with the new addition
-        renderConversations();
+    // Re-render the conversation rows with the new addition
+    renderConversations();
     }
 
     // Function to update conversation data when any field changes
     function updateConversation(index, field, value) {
         conversationData[index][field] = value;
-        document.getElementById("conversationDataInput").value = JSON.stringify(conversationData);
+    document.getElementById("conversationDataInput").value = JSON.stringify(conversationData);
     }
 
     // Function to delete a conversation row and update conversation data
     function deleteRow(button, index) {
         conversationData.splice(index, 1);
-        renderConversations(); // Re-render the rows after deletion
+    renderConversations(); // Re-render the rows after deletion
     }
 
     // Function to save edited comment from modal
     function saveComment() {
         if (currentCommentInput) {
-            currentCommentInput.value = document.getElementById('modalCommentText').value;
+        currentCommentInput.value = document.getElementById('modalCommentText').value;
         }
-        var myModalEl = document.getElementById('commentModal');
-        var modal = bootstrap.Modal.getInstance(myModalEl);
-        modal.hide();
+    var myModalEl = document.getElementById('commentModal');
+    var modal = bootstrap.Modal.getInstance(myModalEl);
+    modal.hide();
     }
 
 
@@ -243,26 +249,46 @@
     function initializeDate() {
         // Set current date if SessionDate is empty
         const dateInput = document.getElementById('date');
-        if (!dateInput.value) {
+    if (!dateInput.value) {
             const today = new Date().toISOString().split('T')[0];
-            dateInput.value = today;
+    dateInput.value = today;
         }
 
-        // Display formatted date
-        updateFormattedDate();
+    // Display formatted date
+    updateFormattedDate();
     }
 
     // Function to update the formatted date field based on date picker value
     function updateFormattedDate() {
         const dateInput = document.getElementById('date');
-        const formattedDateInput = document.getElementById('formattedDate');
-        const date = new Date(dateInput.value);
-        const formattedDate = date.getFullYear() + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + String(date.getDate()).padStart(2, '0');
-        formattedDateInput.value = formattedDate;
+    const formattedDateInput = document.getElementById('formattedDate');
+    const date = new Date(dateInput.value);
+    const formattedDate = date.getFullYear() + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + String(date.getDate()).padStart(2, '0');
+    formattedDateInput.value = formattedDate;
     }
 
     // Initialize the date field on page load
     window.addEventListener('load', initializeDate);
 
-</script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const button = document.querySelector(".btn-primary");
+    const menu = document.getElementById("customMenu");
 
+    // Function to show custom menu
+    button.addEventListener("contextmenu", function (event) {
+        event.preventDefault(); // Prevent default right-click menu
+
+    // Position the menu at the cursor
+    menu.style.left = `${event.pageX}px`;
+    menu.style.top = `${event.pageY}px`;
+    menu.style.display = "block";
+        });
+
+    // Hide menu when clicking outside
+    document.addEventListener("click", function (event) {
+            if (!menu.contains(event.target) && event.target !== button) {
+        menu.style.display = "none";
+            }
+        });
+    });
+</script>

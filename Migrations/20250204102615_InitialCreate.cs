@@ -35,7 +35,8 @@ namespace projektas.Migrations
                     Place = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     Goals = table.Column<string>(type: "TEXT", nullable: false),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
-                    SessionType = table.Column<int>(type: "INTEGER", nullable: false)
+                    SessionType = table.Column<int>(type: "INTEGER", nullable: false),
+                    TimeOfADayStart = table.Column<TimeOnly>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

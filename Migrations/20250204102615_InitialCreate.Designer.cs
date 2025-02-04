@@ -11,7 +11,7 @@ using projektas.Data;
 namespace projektas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250130090930_InitialCreate")]
+    [Migration("20250204102615_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -77,6 +77,9 @@ namespace projektas.Migrations
 
                     b.Property<int>("SessionType")
                         .HasColumnType("INTEGER");
+
+                    b.Property<TimeOnly>("TimeOfADayStart")
+                        .HasColumnType("TEXT");
 
                     b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
