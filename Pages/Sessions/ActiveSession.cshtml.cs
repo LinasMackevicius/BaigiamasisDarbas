@@ -9,11 +9,11 @@ using System;
 
 namespace projektas.Pages.Sessions
 {
-    public class Active_SessionModel : PageModel
+    public class ActiveSessionModel : PageModel
     {
         private readonly ApplicationDbContext _context;
 
-        public Active_SessionModel(ApplicationDbContext context)
+        public ActiveSessionModel(ApplicationDbContext context)
         {
             _context = context;
 
