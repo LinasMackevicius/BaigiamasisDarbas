@@ -1,28 +1,36 @@
 ﻿@page
 @model projektas.Pages.Sessions.ActiveSessionModel
+
 <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true">
 @{
     ViewData["Title"] = "Active Session";
 }
 
 <h2>Active Session</h2>
+<!-- form is an HTML element that allows user to enter data -->
+<!-- asp-page-handler method that will be called once the form is submitted-->
+<!-- id - identifies a form -->
 
 <form method="post" asp-page-handler="SaveSession" id="saveSessionForm">
-    <div class="session-info">
-        <h4>Session Information</h4>
+    <div>
+        <h4>-Session Information-</h4>
 
-        <div class="mb-3 col-12">
+        <div class="mb-3">
+            <!-- Label above input -->
             <label for="date" class="form-label">Date</label>
+            <!-- Flexbox container for input + button -->
+            <div class="input-group w-50">
+                <!-- Hidden date picker -->
+                <input type="date" asp-for="SessionDate" id="date" class="form-control" onchange="updateFormattedDate()" style="display: none;" />
 
-            <!-- Hidden date picker input for selecting date -->
-            <input type="date" asp-for="SessionDate" id="date" class="form-control" onchange="updateFormattedDate()" style="display: none;" />
+                <!-- Read-only text input -->
+                <input type="text" id="formattedDate" class="form-control w-50" readonly />
 
-            <!-- Read-only field to display the formatted date -->
-            <input type="text" id="formattedDate" class="form-control w-50" readonly />
-
-            <!-- Button to trigger the date picker calendar -->
-            <button type="button" class="btn btn-light" onclick="document.getElementById('date').showPicker()">📅</button>
+                <button type="button" class="btn btn-light" onclick="document.getElementById('date').showPicker()">📅</button>
+                
+            </div>
         </div>
+
 
         <div class="mb-3">
             <label asp-for="SessionType" class="form-label">Session Type</label>
