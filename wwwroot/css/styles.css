@@ -20,8 +20,25 @@
 
 .calendarButton1 {
     position: absolute;
-    top: 0px;
-    right: 0px;
-    width: 10%; /* Button width relative to the input field */
-    height: 100%; /* Button height matches the input field */
+    right: 5px; /* Adjust distance from right */
+    top: 50%; /* Align vertically */
+    transform: translateY(-50%); /* Center vertically */
+    background: none;
+    border: none;
+    padding: 4px 8px;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.position-relative {
+    position: relative;
+
+}
+
+#date {
+    opacity: 0; /* Invisible but still interactive */
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    cursor: pointer; /* Makes sure clicking works */
 }
