@@ -7,28 +7,18 @@
 }
 
 <h2>Active Session</h2>
-<!-- form is an HTML element that allows user to enter data -->
-<!-- asp-page-handler method that will be called once the form is submitted-->
-<!-- id - identifies a form -->
 
 <form method="post" asp-page-handler="SaveSession" id="saveSessionForm">
     <div>
         <h4>-Session Information-</h4>
-
-        <div class="mb-3">
-            
-            <label for="date" class="form-label">Date</label>
-            
-            <div class="position-relative w-50">
-                
-                <input type="date" asp-for="SessionDate" id="date" class="form-control" onchange="updateFormattedDate()";" />
-                
-                <input type="text" id="formattedDate" class="form-control w-100" readonly />
-               
-                <button type="button" class="btn calendarButton1" onclick="document.getElementById('date').showPicker()">📅</button>
-            
-            </div>
         
+        <div class="mb-3 w-50">
+            <label for="date" class="form-label">Date</label>
+            <div class="position-relative ">
+                <input type="date" asp-for="SessionDate" id="date" class="form-control" onchange="updateFormattedDate()";" />
+                <input type="text" id="formattedDate" class="form-control w-100" readonly />
+                <button type="button" class="btn calendarButton1" onclick="document.getElementById('date').showPicker()">📅</button>
+            </div>
         </div>
 
         <div class="mb-3">
@@ -41,7 +31,7 @@
        
         @* User is able to pick a session time start *@
         <div class="mb-3">
-            <label asp-for="TimeOfADayStart" class="form-label">Select Time Of A Day</label>
+            <label asp-for="TimeOfADayStart" class="form-label">Time Of The Day</label>
             <input type="time" asp-for="TimeOfADayStart" class="form-control w-50" step="60" required />
             <span asp-validation-for="TimeOfADayStart" class="text-danger"></span>
         </div>

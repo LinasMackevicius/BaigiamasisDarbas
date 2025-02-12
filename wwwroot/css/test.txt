@@ -1,0 +1,18 @@
+<div class="position-r" style="width: 200px; height: 200px; background: lightgray;">
+    <button class="calendarButton1">Button</button>
+</div>
+
+.calendarButton1 {
+    position: relative;
+    background: lightgreen;
+    border: none;
+    padding: 4px 8px;
+}
+
+.position-r {
+    position: relative;
+}
+
+.position-a {
+    position: absolute;
+}

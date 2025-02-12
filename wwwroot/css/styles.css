@@ -32,7 +32,6 @@
 
 .position-relative {
     position: relative;
-
 }
 
 #date {
@@ -41,4 +40,9 @@
     width: 100%;
     height: 100%;
     cursor: pointer; /* Makes sure clicking works */
+}
+
+#saveSessionForm {
+    background-color: lightgreen;
+    padding: 10px;
 }

@@ -87,7 +87,7 @@ namespace projektas.Pages.Sessions
                 await _context.SaveChangesAsync();
             }
 
-            return RedirectToPage("/Sessions/Active_Session");
+            return RedirectToPage("/Sessions/ActiveSession");
         }
 
         public async Task<IActionResult> OnPostEndSessionAsync()

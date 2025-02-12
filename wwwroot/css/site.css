@@ -14,8 +14,10 @@
         margin: 0 10px; /* Space between links */
         padding: 5px 10px; /* Adjust padding for a more compact look */
     }
+
+
 body {
-    background-color: #f2f2f2; /* Light grey color */
-    color: #333; /* Optional: Dark text color for contrast */
+    background-color: #088F8F; /* Light grey color */
+    color: #000000; /* Optional: Dark text color for contrast */
 }
 
