@@ -49,13 +49,14 @@ namespace projektas.Pages.Sessions
 
         public async Task<IActionResult> OnPostSaveSessionAsync()
         {
+            // why is this checking only the place??
             if (string.IsNullOrEmpty(Place))
             {
                 ModelState.AddModelError("", "Place cannot be empty.");
                 return Page();
             }
 
-            var session = new Session
+            Session session = new Session
             {   SessionType = SessionType,
                 TimeOfADayStart = TimeOfADayStart,
                 Date = SessionDate,
