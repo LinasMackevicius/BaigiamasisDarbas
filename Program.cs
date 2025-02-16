@@ -9,6 +9,12 @@ builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddRazorPages()
+    .AddViewOptions(options =>
+    {
+        options.HtmlHelperOptions.ClientValidationEnabled = true;
+    });
+
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);

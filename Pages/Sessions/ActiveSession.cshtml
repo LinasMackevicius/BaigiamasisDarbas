@@ -36,10 +36,14 @@
             <span asp-validation-for="TimeOfADayStart" class="text-danger"></span>
         </div>
 
+
+
         <div class="mb-3 col-12">
             <label for="place" class="form-label">Location</label>
-            <input type="text" id="place" asp-for="Place" class="form-control w-50" placeholder="Enter location" required />
+            <input type="text" id="place" asp-for="Place" class="form-control w-50" placeholder="Enter location" />
+            <span asp-validation-for="Place" class="text-danger"></span>
         </div>
+
 
         <div class="mb-3 col-12">
             <label for="goals" class="form-label">Goals</label>
@@ -107,4 +111,16 @@
 </div>
 
 <script src="~/js/active_session.js" asp-append-version="true"></script>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(document).ready(function () {
+            $.validator.unobtrusive.parse("#saveSessionForm");
+        });
+    </script>
+}
+
+
 

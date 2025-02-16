@@ -69,7 +69,7 @@ namespace projektas.Migrations
 
                     b.Property<string>("Place")
                         .IsRequired()
-                        .HasMaxLength(100)
+                        .HasMaxLength(60)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("SessionType")

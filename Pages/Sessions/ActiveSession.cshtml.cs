@@ -16,10 +16,14 @@ namespace projektas.Pages.Sessions
         public ActiveSessionModel(ApplicationDbContext context)
         {
             _context = context;
-
-            // Initialize SessionDate with the current date
             SessionDate = DateTime.Now;
+            Place = string.Empty; // Fix: Initialize non-nullable properties
+            Goals = string.Empty;
+            ConversationsJson = "[]"; // Assuming an empty JSON array
         }
+
+        [BindProperty]
+        public Session Session { get; set; }
 
         [BindProperty]
         public DateTime SessionDate { get; set; }
@@ -49,12 +53,21 @@ namespace projektas.Pages.Sessions
 
         public async Task<IActionResult> OnPostSaveSessionAsync()
         {
-            // why is this checking only the place??
-            if (string.IsNullOrEmpty(Place))
+            // Checks if data input validity based on annotations.
+            if (!ModelState.IsValid)
             {
-                ModelState.AddModelError("", "Place cannot be empty.");
+                foreach (var modelStateKey in ModelState.Keys)
+                {
+                    var errors = ModelState[modelStateKey]?.Errors;
+                    if (errors?.Count > 0)
+                    {
+                        Console.WriteLine($"Error in {modelStateKey}: {string.Join(", ", errors.Select(e => e.ErrorMessage))}");
+                    }
+                }
                 return Page();
             }
+            // If we reached here, ModelState is valid
+            Console.WriteLine("ModelState is valid. Proceeding with database insert.");
 
             Session session = new Session
             {   SessionType = SessionType,

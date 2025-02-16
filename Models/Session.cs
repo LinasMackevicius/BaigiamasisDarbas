@@ -13,14 +13,16 @@ namespace projektas.Models
     {
         [Key]
         public int Id { get; set; }
-
-        [Required]
         public DateTime Date { get; set; }
 
-        [StringLength(100)]
-        public string Place { get; set; }
+        [Required(ErrorMessage = "Place is required.")]
+        [MinLength(3, ErrorMessage = "Place must be at least 3 characters.")]
+        [StringLength(60, ErrorMessage = "Place cannot be longer than 60 characters.")]
+        public string Place { get; set; } = string.Empty;
 
-        public string Goals { get; set; }
+
+
+        public string Goals { get; set; } = string.Empty;
 
         public int UserId { get; set; }
         public User User { get; set; } // Foreign key relationship to User

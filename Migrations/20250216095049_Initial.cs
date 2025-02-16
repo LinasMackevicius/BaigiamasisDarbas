@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace projektas.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,7 +32,7 @@ namespace projektas.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Date = table.Column<DateTime>(type: "TEXT", nullable: false),
-                    Place = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
+                    Place = table.Column<string>(type: "TEXT", maxLength: 60, nullable: false),
                     Goals = table.Column<string>(type: "TEXT", nullable: false),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false),
                     SessionType = table.Column<int>(type: "INTEGER", nullable: false),

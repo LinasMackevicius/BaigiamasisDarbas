@@ -11,8 +11,8 @@ using projektas.Data;
 namespace projektas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250204102615_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250216095049_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -72,7 +72,7 @@ namespace projektas.Migrations
 
                     b.Property<string>("Place")
                         .IsRequired()
-                        .HasMaxLength(100)
+                        .HasMaxLength(60)
                         .HasColumnType("TEXT");
 
                     b.Property<int>("SessionType")
