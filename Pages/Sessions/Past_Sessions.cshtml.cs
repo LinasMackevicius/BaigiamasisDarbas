@@ -32,13 +32,13 @@ namespace projektas.Pages.Sessions
             var query = _context.SessionsList
                 .Include(s => s.Conversations)
                 .Where(s => s.UserId == HttpContext.Session.GetInt32("UserId")) // Only the logged-in user's sessions
-                .OrderByDescending(s => s.Date)
+                .OrderByDescending(s => s.SessionDate)
                 .AsQueryable();
 
             // Apply Date filter
             if (FilterDate.HasValue)
             {
-                query = query.Where(s => s.Date.Date == FilterDate.Value.Date);
+                query = query.Where(s => s.SessionDate.Date == FilterDate.Value.Date);
             }
 
             // Apply Place filter

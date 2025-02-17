@@ -30,7 +30,7 @@ namespace projektas.Pages.Statistics
             var sixMonthsAgo = DateTime.Now.AddMonths(-6);
 
             var sessions = await _context.SessionsList
-                .Where(s => s.UserId == userId && s.Date >= sixMonthsAgo)
+                .Where(s => s.UserId == userId && s.SessionDate >= sixMonthsAgo)
                 .Include(s => s.Conversations)
                 .ToListAsync();
 
@@ -38,7 +38,7 @@ namespace projektas.Pages.Statistics
 
             foreach (var session in sessions)
             {
-                var monthKey = session.Date.ToString("yyyy-MM");
+                var monthKey = session.SessionDate.ToString("yyyy-MM");
 
                 if (!monthData.ContainsKey(monthKey))
                 {

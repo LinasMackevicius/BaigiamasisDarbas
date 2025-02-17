@@ -11,9 +11,15 @@ namespace projektas.Models
 
     public class Session
     {
+        public Session()
+        {
+            Conversations = new List<Conversation>(); // Initialize it
+        }
+
+
         [Key]
         public int Id { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime SessionDate { get; set; }
 
         [Required(ErrorMessage = "Place is required.")]
         [MinLength(3, ErrorMessage = "Place must be at least 3 characters.")]
@@ -21,11 +27,10 @@ namespace projektas.Models
         public string Place { get; set; } = string.Empty;
 
 
-
         public string Goals { get; set; } = string.Empty;
 
         public int UserId { get; set; }
-        public User User { get; set; } // Foreign key relationship to User
+        public User? User { get; set; } // Foreign key relationship to User
 
         public List<Conversation> Conversations { get; set; } // Navigation property
 

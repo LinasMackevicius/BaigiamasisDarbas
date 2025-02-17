@@ -16,38 +16,21 @@ namespace projektas.Pages.Sessions
         public ActiveSessionModel(ApplicationDbContext context)
         {
             _context = context;
-            SessionDate = DateTime.Now;
-            Place = string.Empty; // Fix: Initialize non-nullable properties
-            Goals = string.Empty;
-            ConversationsJson = "[]"; // Assuming an empty JSON array
+            Session = new Session(); // Ensure Session is never null
+            ConversationsJson = "[]"; // Default value for JSON string
         }
 
         [BindProperty]
         public Session Session { get; set; }
 
         [BindProperty]
-        public DateTime SessionDate { get; set; }
-
-        [BindProperty]
-        public SessionType SessionType { get; set; }
-
-        [BindProperty]
-        public TimeOnly TimeOfADayStart { get; set; }
-
-        [BindProperty]
-        public string Place { get; set; }
-
-        [BindProperty]
-        public string Goals { get; set; }
-
-        [BindProperty]
         public string ConversationsJson { get; set; }  // JSON string for conversations
 
         public void OnGet()
         {
-            if (SessionDate == DateTime.MinValue)
+            if (Session.SessionDate == DateTime.MinValue)
             {
-                SessionDate = DateTime.Now;
+                Session.SessionDate = DateTime.Now; // Ensure SessionDate is set correctly
             }
         }
 
@@ -66,24 +49,19 @@ namespace projektas.Pages.Sessions
                 }
                 return Page();
             }
-            // If we reached here, ModelState is valid
-            Console.WriteLine("ModelState is valid. Proceeding with database insert.");
 
-            Session session = new Session
-            {   SessionType = SessionType,
-                TimeOfADayStart = TimeOfADayStart,
-                Date = SessionDate,
-                Place = Place,
-                Goals = Goals,
-                UserId = HttpContext.Session.GetInt32("UserId") ?? 0
-            };
+            // Assign UserId before saving
+            Session.UserId = HttpContext.Session.GetInt32("UserId") ?? 0;
 
-            _context.SessionsList.Add(session);
+            // Add session to database
+            _context.SessionsList.Add(Session);
             await _context.SaveChangesAsync();
 
+            // Process conversations if there are any
             if (!string.IsNullOrEmpty(ConversationsJson))
             {
-                var conversations = JsonConvert.DeserializeObject<List<ConversationInputModel>>(ConversationsJson);
+                var conversations = JsonConvert.DeserializeObject<List<ConversationInputModel>>(ConversationsJson) ?? new List<ConversationInputModel>();
+                
                 foreach (var conversation in conversations)
                 {
                     var newConversation = new Conversation
@@ -92,9 +70,9 @@ namespace projektas.Pages.Sessions
                         Duration = conversation.Duration,
                         SuccessRating = conversation.SuccessRating,
                         Comment = conversation.Comment,
-                        SessionId = session.Id,
-                        Date = SessionDate, // Set the conversation date
-                        UserId = session.UserId // Set the conversation user ID
+                        SessionId = Session.Id, // Link conversation to the saved session
+                        Date = Session.SessionDate, // Set the conversation date
+                        UserId = Session.UserId // Set the conversation user ID
                     };
                     _context.Conversations.Add(newConversation);
                 }
@@ -109,10 +87,8 @@ namespace projektas.Pages.Sessions
             Console.WriteLine("OnPostEndSessionAsync called");
             await OnPostSaveSessionAsync();
 
-            // Reset for a new session
-            SessionDate = DateTime.Now;
-            Place = string.Empty;
-            Goals = string.Empty;
+            // Reset Session to a new instance instead of resetting properties individually
+            Session = new Session { SessionDate = DateTime.Now };
             ConversationsJson = "[]";
 
             return RedirectToPage("/Sessions/Active_Session");

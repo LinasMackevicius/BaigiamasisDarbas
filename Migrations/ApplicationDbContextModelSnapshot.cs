@@ -60,9 +60,6 @@ namespace projektas.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("Goals")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -70,6 +67,9 @@ namespace projektas.Migrations
                     b.Property<string>("Place")
                         .IsRequired()
                         .HasMaxLength(60)
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("SessionDate")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("SessionType")

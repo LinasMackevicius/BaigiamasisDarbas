@@ -15,39 +15,39 @@
         <div class="mb-3 w-50">
             <label for="date" class="form-label">Date</label>
             <div class="position-relative ">
-                <input type="date" asp-for="SessionDate" id="date" class="form-control" onchange="updateFormattedDate()";" />
+                <input type="date" asp-for="Session.SessionDate" id="date" class="form-control" onchange="updateFormattedDate()";" />
                 <input type="text" id="formattedDate" class="form-control w-100" readonly />
                 <button type="button" class="btn calendarButton1" onclick="document.getElementById('date').showPicker()">📅</button>
             </div>
         </div>
 
         <div class="mb-3">
-            <label asp-for="SessionType" class="form-label">Session Type</label>
-            <select asp-for="SessionType" asp-items="Html.GetEnumSelectList<projektas.Models.SessionType>()" class="form-control w-50" required>
+            <label asp-for="Session.SessionType" class="form-label">Session Type</label>
+            <select asp-for="Session.SessionType" asp-items="Html.GetEnumSelectList<projektas.Models.SessionType>()" class="form-control w-50" required>
                 <option value="">-- Select Session Type --</option>
             </select>
-            <span asp-validation-for="SessionType" class="text-danger"></span>
+            <span asp-validation-for="Session.SessionType" class="text-danger"></span>
         </div>
        
         @* User is able to pick a session time start *@
         <div class="mb-3">
-            <label asp-for="TimeOfADayStart" class="form-label">Time Of The Day</label>
-            <input type="time" asp-for="TimeOfADayStart" class="form-control w-50" step="60" required />
-            <span asp-validation-for="TimeOfADayStart" class="text-danger"></span>
+            <label asp-for="Session.TimeOfADayStart" class="form-label">Time Of The Day</label>
+            <input type="time" asp-for="Session.TimeOfADayStart" class="form-control w-50" step="60" required />
+            <span asp-validation-for="Session.TimeOfADayStart" class="text-danger"></span>
         </div>
 
 
 
         <div class="mb-3 col-12">
             <label for="place" class="form-label">Location</label>
-            <input type="text" id="place" asp-for="Place" class="form-control w-50" placeholder="Enter location" />
-            <span asp-validation-for="Place" class="text-danger"></span>
+            <input type="text" id="place" asp-for="Session.Place" class="form-control w-50" placeholder="Enter location" />
+            <span asp-validation-for="Session.Place" class="text-danger"></span>
         </div>
 
 
         <div class="mb-3 col-12">
             <label for="goals" class="form-label">Goals</label>
-            <textarea id="goals" asp-for="Goals" class="form-control" rows="2" placeholder="Describe your intention for the session" required></textarea>
+            <textarea id="goals" asp-for="Session.Goals" class="form-control" rows="2" placeholder="Describe your intention for the session" required></textarea>
         </div>
     </div>
 
