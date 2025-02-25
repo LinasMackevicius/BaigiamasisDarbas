@@ -1,4 +1,5 @@
-﻿@page
+﻿
+@page
 @model projektas.Pages.Sessions.ActiveSessionModel
 
 <link rel="stylesheet" href="~/css/styles.css" asp-append-version="true">
@@ -28,13 +29,21 @@
             </select>
             <span asp-validation-for="Session.SessionType" class="text-danger"></span>
         </div>
-       
-        @* User is able to pick a session time start *@
-        <div class="mb-3">
-            <label asp-for="Session.TimeOfADayStart" class="form-label">Time Of The Day</label>
-            <input type="time" asp-for="Session.TimeOfADayStart" class="form-control w-50" step="60" required />
-            <span asp-validation-for="Session.TimeOfADayStart" class="text-danger"></span>
+
+        <div class="d-flex gap-3 w-50">
+            <div class="mb-3 flex-fill">
+                <label asp-for="Session.TimeOfADayStart" class="form-label">Start Time</label>
+                <input type="time" asp-for="Session.TimeOfADayStart" class="form-control" step="60" required />
+                <span asp-validation-for="Session.TimeOfADayStart" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 flex-fill">
+                <label asp-for="Session.TimeOfADayEnd" class="form-label">End Time</label>
+                <input type="time" asp-for="Session.TimeOfADayEnd" class="form-control" step="60" required />
+                <span asp-validation-for="Session.TimeOfADayEnd" class="text-danger"></span>
+            </div>
         </div>
+
 
 
 

@@ -32,21 +32,17 @@ namespace projektas.Pages.Sessions
             {
                 Session.SessionDate = DateTime.Now; // Ensure SessionDate is set correctly
             }
+
+            if (Session.TimeOfADayStart == default)
+            {
+                Session.TimeOfADayStart = TimeOnly.FromDateTime(DateTime.Now); // Set to current time
+            }
         }
 
         public async Task<IActionResult> OnPostSaveSessionAsync()
         {
-            // Checks if data input validity based on annotations.
             if (!ModelState.IsValid)
             {
-                foreach (var modelStateKey in ModelState.Keys)
-                {
-                    var errors = ModelState[modelStateKey]?.Errors;
-                    if (errors?.Count > 0)
-                    {
-                        Console.WriteLine($"Error in {modelStateKey}: {string.Join(", ", errors.Select(e => e.ErrorMessage))}");
-                    }
-                }
                 return Page();
             }
 
