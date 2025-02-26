@@ -30,6 +30,7 @@
             <span asp-validation-for="Session.SessionType" class="text-danger"></span>
         </div>
 
+
         <div class="d-flex gap-3 w-50">
             <div class="mb-3 flex-fill">
                 <label asp-for="Session.TimeOfADayStart" class="form-label">Start Time</label>
@@ -41,6 +42,11 @@
                 <label asp-for="Session.TimeOfADayEnd" class="form-label">End Time</label>
                 <input type="time" asp-for="Session.TimeOfADayEnd" class="form-control" step="60" required />
                 <span asp-validation-for="Session.TimeOfADayEnd" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 flex-fill">
+                <label asp-for="Session.SessionDuration" class="form-label">Session Duration</label>
+                <input type="text" id="SessionDuration" class="form-control w-100" readonly />
             </div>
         </div>
 

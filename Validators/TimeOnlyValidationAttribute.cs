@@ -6,10 +6,9 @@ namespace projektas.Validators
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            if (value is TimeOnly timeValue)
+            if (value is TimeOnly)
             {
-                // Check if it's a valid TimeOnly value (this is usually implicit)
-                return ValidationResult.Success; // Always valid for any TimeOnly value
+                return ValidationResult.Success;
             }
             return new ValidationResult(ErrorMessage ?? "Invalid time format.");
         }

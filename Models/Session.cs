@@ -29,12 +29,12 @@ namespace projektas.Models
         public SessionType SessionType { get; set; }
 
         [Required]
-        [TimeOnlyValidation(ErrorMessage = "Please enter a valid time.")]
+        [TimeOnlyValidation]
         public TimeOnly TimeOfADayStart { get; set; }
 
         [Required]
+        [TimeOnlyValidation]
         public TimeOnly TimeOfADayEnd { get; set; }
-
 
         [Required(ErrorMessage = "Place is required.")]
         [MinLength(3, ErrorMessage = "Place must be at least 3 characters.")]
