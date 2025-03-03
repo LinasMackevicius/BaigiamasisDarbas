@@ -75,6 +75,9 @@ namespace projektas.Migrations
                     b.Property<int>("SessionType")
                         .HasColumnType("INTEGER");
 
+                    b.Property<TimeOnly>("TimeOfADayEnd")
+                        .HasColumnType("TEXT");
+
                     b.Property<TimeOnly>("TimeOfADayStart")
                         .HasColumnType("TEXT");
 

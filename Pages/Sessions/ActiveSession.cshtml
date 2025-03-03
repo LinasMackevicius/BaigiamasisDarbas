@@ -43,24 +43,16 @@
                 <input type="time" asp-for="Session.TimeOfADayEnd" class="form-control" step="60" required />
                 <span asp-validation-for="Session.TimeOfADayEnd" class="text-danger"></span>
             </div>
-
-            <div class="mb-3 flex-fill">
-                <label asp-for="Session.SessionDuration" class="form-label">Session Duration</label>
-                <input type="text" id="SessionDuration" class="form-control w-100" readonly />
-            </div>
         </div>
 
-
-
-
-        <div class="mb-3 col-12">
+        <div class="mb-3 col-12 w-50">
             <label for="place" class="form-label">Location</label>
-            <input type="text" id="place" asp-for="Session.Place" class="form-control w-50" placeholder="Enter location" />
+            <input type="text" id="place" asp-for="Session.Place" class="form-control" placeholder="Enter location" />
             <span asp-validation-for="Session.Place" class="text-danger"></span>
         </div>
 
 
-        <div class="mb-3 col-12">
+        <div class="mb-3 col-12 w-50">
             <label for="goals" class="form-label">Goals</label>
             <textarea id="goals" asp-for="Session.Goals" class="form-control" rows="2" placeholder="Describe your intention for the session" required></textarea>
         </div>
@@ -87,18 +79,13 @@
         <button type="button" class="btn btn-primary" onclick="addConversationRow()">+ Add Conversation</button>
     </div>
 
-    <!-- Custom Right-Click Dropdown -->
-    <div id="customMenu" class="custom-menu">
-        <div class="menu-item" onclick="addConversationRow()">Add Conversation</div>
-        <div class="menu-item" onclick="alert('Option 2 Selected')">Option 2</div>
-        <div class="menu-item" onclick="alert('Option 3 Selected')">Option 3</div>
-    </div>
-
-
     <input type="hidden" id="conversationDataInput" name="ConversationsJson" />
+
+
     <div class="session-actions d-grid gap-2 d-md-flex justify-content-md-end">
         <button type="button" class="btn btn-success mb-2" onclick="saveSession()">Save Session</button>
     </div>
+
 </form>
 
 <form method="post" asp-page-handler="EndSession" id="endSessionForm">

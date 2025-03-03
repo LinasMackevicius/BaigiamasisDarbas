@@ -42,7 +42,3 @@
     cursor: pointer; /* Makes sure clicking works */
 }
 
-#saveSessionForm {
-    background-color: lightgreen;
-    padding: 10px;
-}

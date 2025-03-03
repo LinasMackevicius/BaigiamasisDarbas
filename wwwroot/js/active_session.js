@@ -31,25 +31,36 @@ function saveSession() {
 }
 
 function showPopupMessage(message) {
-    const popup = document.createElement('div');
-    popup.style.position = 'absolute';
-    popup.style.bottom = '80%'; // Adjust this value as needed to position above the button
-    popup.style.left = '50%';
-    popup.style.transform = 'translateX(-50%)';
-    popup.style.backgroundColor = '#d4edda';
-    popup.style.color = '#155724';
-    popup.style.padding = '10px 20px';
-    popup.style.borderRadius = '5px';
-    popup.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.1)';
-    popup.style.zIndex = '1000';
-    popup.style.fontWeight = 'bold';
-    popup.innerText = message;
-    document.body.appendChild(popup);
+    let popup = document.getElementById('popupMessage');
 
+    if (!popup) {
+        popup = document.createElement('div');
+        popup.id = 'popupMessage';
+        popup.style.position = 'fixed'; // Fixed position ensures it stays in view
+        popup.style.top = '20px'; // Adjust this to position it at the top
+        popup.style.left = '50%';
+        popup.style.transform = 'translateX(-50%)';
+        popup.style.backgroundColor = '#d4edda';
+        popup.style.color = '#155724';
+        popup.style.padding = '10px 20px';
+        popup.style.borderRadius = '5px';
+        popup.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.1)';
+        popup.style.zIndex = '1000';
+        popup.style.fontWeight = 'bold';
+        popup.style.textAlign = 'center';
+        popup.style.minWidth = '200px';
+        document.body.appendChild(popup);
+    }
+
+    popup.innerText = message;
+    popup.style.display = 'block';
+
+    // Hide after 3 seconds
     setTimeout(() => {
-        popup.remove();
+        popup.style.display = 'none';
     }, 3000);
 }
+
 
 
 
@@ -178,43 +189,4 @@ document.addEventListener("DOMContentLoaded", function () {
             menu.style.display = "none";
         }
     });
-});
-
-
-document.addEventListener("DOMContentLoaded", function () {
-    // Get references to the input fields
-    const startTimeInput = document.getElementById("Session_TimeOfADayStart");
-    const endTimeInput = document.getElementById("Session_TimeOfADayEnd");
-    const durationInput = document.getElementById("SessionDuration");
-
-    function calculateDuration() {
-        const startTime = startTimeInput.value;
-        const endTime = endTimeInput.value;
-
-        if (!startTime || !endTime) {
-            durationInput.value = ""; // Clear if any field is empty
-            return;
-        }
-
-        // Convert time strings to Date objects
-        const start = new Date(`2000-01-01T${startTime}`);
-        const end = new Date(`2000-01-01T${endTime}`);
-
-        // Handle overnight sessions (e.g., 23:30 - 03:00)
-        if (end < start) {
-            end.setDate(end.getDate() + 1); // Move end time to next day
-        }
-
-        // Calculate duration in minutes
-        const durationMinutes = (end - start) / (1000 * 60); // Convert ms to minutes
-
-        // Format to HH:MM
-        const hours = Math.floor(durationMinutes / 60);
-        const minutes = durationMinutes % 60;
-        durationInput.value = `${hours}h ${minutes}m`;
-    }
-
-    // Attach event listeners to both time inputs
-    startTimeInput.addEventListener("input", calculateDuration);
-    endTimeInput.addEventListener("input", calculateDuration);
 });
