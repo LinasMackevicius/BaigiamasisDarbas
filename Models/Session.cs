@@ -36,6 +36,8 @@ namespace projektas.Models
         [TimeOnlyValidation]
         public TimeOnly TimeOfADayEnd { get; set; }
 
+        public TimeSpan SessionDuration { get; set; }
+
         [Required(ErrorMessage = "Place is required.")]
         [MinLength(3, ErrorMessage = "Place must be at least 3 characters.")]
         [StringLength(60, ErrorMessage = "Place cannot be longer than 60 characters.")]

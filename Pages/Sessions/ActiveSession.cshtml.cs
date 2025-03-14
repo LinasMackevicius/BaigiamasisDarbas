@@ -3,9 +3,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using projektas.Data;
 using projektas.Models;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System;
 
 namespace projektas.Pages.Sessions
 {
@@ -57,7 +54,7 @@ namespace projektas.Pages.Sessions
             if (!string.IsNullOrEmpty(ConversationsJson))
             {
                 var conversations = JsonConvert.DeserializeObject<List<ConversationInputModel>>(ConversationsJson) ?? new List<ConversationInputModel>();
-                
+
                 foreach (var conversation in conversations)
                 {
                     var newConversation = new Conversation
@@ -91,3 +88,4 @@ namespace projektas.Pages.Sessions
         }
     }
 }
+

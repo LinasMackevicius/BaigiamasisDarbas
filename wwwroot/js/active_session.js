@@ -169,24 +169,40 @@ function updateFormattedDate() {
 // Initialize the date field on page load
 window.addEventListener('load', initializeDate);
 
+function updateSessionDuration() {
+    const startTimeInput = document.getElementById('TimeOfADayStart');
+    const endTimeInput = document.getElementById('TimeOfADayEnd');
+    const durationInput = document.getElementById('SessionDuration');
+
+    if (!startTimeInput.value || !endTimeInput.value) {
+        durationInput.value = "";
+        return;
+    }
+
+    // Extract hours and minutes
+    const [startHours, startMinutes] = startTimeInput.value.split(":").map(Number);
+    const [endHours, endMinutes] = endTimeInput.value.split(":").map(Number);
+
+    // Create Date objects with today's date
+    const now = new Date();
+    const startTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), startHours, startMinutes);
+    const endTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), endHours, endMinutes);
+
+    if (endTime < startTime) {
+        endTime.setDate(endTime.getDate() + 1);
+    }
+
+    let diff = (endTime - startTime) / 60000; // Convert milliseconds to minutes
+
+    const diffHours = Math.floor(diff / 60);
+    const diffMinutes = diff % 60;
+    durationInput.value = `${diffHours}h ${diffMinutes}m`;
+}
+
+// Attach event listeners when the DOM is fully loaded
 document.addEventListener("DOMContentLoaded", function () {
-    const button = document.querySelector(".btn-primary");
-    const menu = document.getElementById("customMenu");
-
-    // Function to show custom menu
-    button.addEventListener("contextmenu", function (event) {
-        event.preventDefault(); // Prevent default right-click menu
-
-        // Position the menu at the cursor
-        menu.style.left = `${event.pageX}px`;
-        menu.style.top = `${event.pageY}px`;
-        menu.style.display = "block";
-    });
-
-    // Hide menu when clicking outside
-    document.addEventListener("click", function (event) {
-        if (!menu.contains(event.target) && event.target !== button) {
-            menu.style.display = "none";
-        }
-    });
+    document.getElementById('TimeOfADayStart').addEventListener("change", updateSessionDuration);
+    document.getElementById('TimeOfADayEnd').addEventListener("change", updateSessionDuration);
 });
+
+

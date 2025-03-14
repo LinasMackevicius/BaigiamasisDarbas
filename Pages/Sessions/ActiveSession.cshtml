@@ -34,14 +34,20 @@
         <div class="d-flex gap-3 w-50">
             <div class="mb-3 flex-fill">
                 <label asp-for="Session.TimeOfADayStart" class="form-label">Start Time</label>
-                <input type="time" asp-for="Session.TimeOfADayStart" class="form-control" step="60" required />
+                <input type="time" asp-for="Session.TimeOfADayStart" id="TimeOfADayStart" class="form-control" required />
                 <span asp-validation-for="Session.TimeOfADayStart" class="text-danger"></span>
             </div>
 
             <div class="mb-3 flex-fill">
                 <label asp-for="Session.TimeOfADayEnd" class="form-label">End Time</label>
-                <input type="time" asp-for="Session.TimeOfADayEnd" class="form-control" step="60" required />
+                <input type="time" asp-for="Session.TimeOfADayEnd" id="TimeOfADayEnd" class="form-control" required />
                 <span asp-validation-for="Session.TimeOfADayEnd" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3 flex-fill">
+                <label asp-for="Session.SessionDuration" class="form-label">Session Duration</label>
+                <input type="text" id="SessionDuration" class="form-control" readonly />
+                <input type="hidden" asp-for="Session.SessionDuration" id="SessionDurationHidden" />
             </div>
         </div>
 
@@ -76,22 +82,30 @@
                 </tbody>
             </table>
         </div>
-        <button type="button" class="btn btn-primary" onclick="addConversationRow()">+ Add Conversation</button>
+
+        <div class="d-flex gap-3 w-50">
+            <div class="mb-3 flex-fill">
+                <button type="button" class="btn btn-primary" onclick="addConversationRow()">+ Add Conversation</button>
+            </div>
+            <div class="mb-3 flex-fill">
+                <button type="button" class="btn btn-success mb-2" onclick="saveSession()">Save Session</button>
+            </div>
+        </div>
     </div>
 
     <input type="hidden" id="conversationDataInput" name="ConversationsJson" />
 
 
     <div class="session-actions d-grid gap-2 d-md-flex justify-content-md-end">
-        <button type="button" class="btn btn-success mb-2" onclick="saveSession()">Save Session</button>
+        <form method="post" asp-page-handler="EndSession" id="endSessionForm">
+            <input type="hidden" id="conversationDataInput" name="ConversationsJson" />
+            <button type="button" class="btn btn-danger mb-2" onclick="endSession()">End Session</button>
+        </form>
     </div>
 
 </form>
 
-<form method="post" asp-page-handler="EndSession" id="endSessionForm">
-    <input type="hidden" id="conversationDataInput" name="ConversationsJson" />
-    <button type="button" class="btn btn-danger mb-2" onclick="endSession()">End Session</button>
-</form>
+
 
 <!-- Comment Edit Modal -->
 <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
