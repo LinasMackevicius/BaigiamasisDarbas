@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace projektas.Migrations
 {
     /// <inheritdoc />
-    public partial class initial : Migration
+    public partial class InitialNext : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -35,6 +35,7 @@ namespace projektas.Migrations
                     SessionType = table.Column<int>(type: "INTEGER", nullable: false),
                     TimeOfADayStart = table.Column<TimeOnly>(type: "TEXT", nullable: false),
                     TimeOfADayEnd = table.Column<TimeOnly>(type: "TEXT", nullable: false),
+                    SessionDuration = table.Column<TimeSpan>(type: "TEXT", nullable: false),
                     Place = table.Column<string>(type: "TEXT", maxLength: 60, nullable: false),
                     Goals = table.Column<string>(type: "TEXT", nullable: false),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false)

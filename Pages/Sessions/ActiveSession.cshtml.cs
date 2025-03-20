@@ -36,7 +36,7 @@ namespace projektas.Pages.Sessions
             }
         }
 
-        public async Task<IActionResult> OnPostSaveSessionAsync()
+        public async Task<IActionResult> OnPostWriteSessionInfoToDatabaseAsync()
         {
             if (!ModelState.IsValid)
             {
@@ -78,13 +78,13 @@ namespace projektas.Pages.Sessions
         public async Task<IActionResult> OnPostEndSessionAsync()
         {
             Console.WriteLine("OnPostEndSessionAsync called");
-            await OnPostSaveSessionAsync();
+            await OnPostWriteSessionInfoToDatabaseAsync();
 
             // Reset Session to a new instance instead of resetting properties individually
             Session = new Session { SessionDate = DateTime.Now };
             ConversationsJson = "[]";
 
-            return RedirectToPage("/Sessions/Active_Session");
+            return RedirectToPage("/Sessions/ActiveSession");
         }
     }
 }

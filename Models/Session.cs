@@ -31,21 +31,21 @@ namespace projektas.Models
         [Required]
         [TimeOnlyValidation]
         public TimeOnly TimeOfADayStart { get; set; }
-
+        
         [Required]
         [TimeOnlyValidation]
         public TimeOnly TimeOfADayEnd { get; set; }
 
+        [Required]
         public TimeSpan SessionDuration { get; set; }
 
         [Required(ErrorMessage = "Place is required.")]
-        [MinLength(3, ErrorMessage = "Place must be at least 3 characters.")]
+        [MinLength(5, ErrorMessage = "Place must be at least 3 characters.")]
         [StringLength(60, ErrorMessage = "Place cannot be longer than 60 characters.")]
         public string Place { get; set; } = string.Empty;
 
-        
         [Required(ErrorMessage = "Goal is required.")]
-        [MinLength(3, ErrorMessage = "Goal must be at least 3 characters.")]
+        [RegularExpression(@"^\s*\w+\s*$", ErrorMessage = "Enter at least one word.")]
         public string Goals { get; set; } = string.Empty;
 
         public int UserId { get; set; }

@@ -11,8 +11,8 @@ using projektas.Data;
 namespace projektas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250303092240_initial")]
-    partial class initial
+    [Migration("20250315083612_InitialNext")]
+    partial class InitialNext
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -73,6 +73,9 @@ namespace projektas.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("SessionDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<TimeSpan>("SessionDuration")
                         .HasColumnType("TEXT");
 
                     b.Property<int>("SessionType")
