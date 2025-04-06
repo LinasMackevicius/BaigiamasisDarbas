@@ -61,7 +61,11 @@ function showPopupMessage(message) {
     }, 3000);
 }
 
-// Helper function to re-render the conversation list on the page
+function autoResizeTextarea(textarea) {
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
+}
+
 function renderConversations() {
     const tableBody = document.getElementById('conversationsTableBody');
     tableBody.innerHTML = ''; // Clear all existing rows
@@ -79,10 +83,21 @@ function renderConversations() {
                     <option value="5" ${conversation.successRating == 5 ? 'selected' : ''}>5 - Successful</option>
                 </select>
             </td>
-            <td><input type="text" class="form-control" value="${conversation.comment}" oninput="updateConversation(${index}, 'comment', this.value)"></td>
+            <td>
+                <div class="resizable-comment">
+                    <textarea class="form-control"
+                        rows="1"
+                        oninput="updateConversation(${index}, 'comment', this.value); autoResizeTextarea(this);"
+                    >${conversation.comment}</textarea>
+                </div>
+            </td>
             <td><button type="button" class="btn btn-danger" onclick="deleteRow(this, ${index})">Delete</button></td>
         `;
         tableBody.appendChild(row);
+
+        // Auto-resize the textarea initially
+        const textarea = row.querySelector('textarea');
+        autoResizeTextarea(textarea);
     });
 }
 

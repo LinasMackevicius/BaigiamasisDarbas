@@ -41,3 +41,34 @@
     height: 100%;
     cursor: pointer; /* Makes sure clicking works */
 }
+
+/* Table cell reset */
+td {
+    padding: 0; /* To make elements fit snugly */
+    vertical-align: top; /* So the content grows from the top */
+}
+
+/* Prevent resizing on td/wrapper */
+.resizable-comment {
+    resize: none;             /* Disable resizing on the div itself */
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+/* Style the resizable textarea only */
+.resizable-comment textarea {
+    resize: vertical;         /* Allow vertical resizing only */
+    overflow: hidden;         /* Prevent scrollbars */
+    width: 100%;
+    min-height: 50px;
+    max-height: 300px;
+    border: none;
+    outline: none;
+    padding: 4px;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+
