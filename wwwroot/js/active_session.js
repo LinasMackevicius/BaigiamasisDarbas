@@ -17,7 +17,7 @@ window.addEventListener('load', () => {
 function cacheSessionDataToBrowserStorage() {
     const sessionData = {
         date: document.getElementById('date').value,
-        place: document.getElementById('place').value,
+        place: document.getElementById('place').value, 
         goals: document.getElementById('goals').value,
         conversations: conversationData
     };

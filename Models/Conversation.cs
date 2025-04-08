@@ -16,7 +16,7 @@ namespace projektas.Models
         [Range(1, 5)]
         public int SuccessRating { get; set; } // 1 - Unsuccessful, 5 - Very Successful
 
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
 
         public int SessionId { get; set; }
         public Session Session { get; set; } // Foreign key relationship to Session
