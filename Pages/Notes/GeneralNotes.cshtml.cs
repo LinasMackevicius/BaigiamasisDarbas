@@ -1,28 +1,25 @@
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using projektas.Models;
-using System.Collections.Generic;
 
 namespace projektas.Pages.Notes
 {
     public class GeneralNotesModel : PageModel
     {
-        public List<GeneralNote> Notes { get; set; }
+        [BindProperty]
+        public GeneralNote Note { get; set; }
 
-        // Sample data, which you can replace with real database data later
         public void OnGet()
         {
-            Notes = new List<GeneralNote>
-            {
-                new GeneralNote { Title = "Insight 1", Content = "This is content for insight 1." },
-                new GeneralNote { Title = "Insight 2", Content = "This is content for insight 2." },
-                new GeneralNote { Title = "Insight 3", Content = "This is content for insight 3." }
-            };
+            // Nothing yet
         }
 
-        // This method handles saving the updated note content
-        public void OnPostSave(int index, string content)
+        public void OnPost()
         {
-            Notes[index].Content = content;
+            // For now just store it temporarily or debug
+            var title = Note?.Title;
+            var content = Note?.Content;
+            // Later you can save this to a DB
         }
     }
 }
