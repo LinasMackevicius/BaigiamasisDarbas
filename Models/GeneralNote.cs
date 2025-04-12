@@ -1,10 +1,18 @@
-﻿namespace projektas.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace projektas.Models
 {
     public class GeneralNote
     {
-        public string? Title { get; set; }
-        public string? Content { get; set; }
-        public bool CanEdit { get; set; }
+        public int Id { get; set; }
+
+        [Required]
+        public string Title { get; set; } = string.Empty;
+
+        [Required]
+        public string Content { get; set; } = string.Empty;
+
+        public int UserId { get; set; }
     }
 }
 

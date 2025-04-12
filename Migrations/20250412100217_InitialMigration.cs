@@ -6,11 +6,26 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace projektas.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "GeneralNotes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Title = table.Column<string>(type: "TEXT", nullable: false),
+                    Content = table.Column<string>(type: "TEXT", nullable: false),
+                    UserId = table.Column<int>(type: "INTEGER", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GeneralNotes", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -60,7 +75,7 @@ namespace projektas.Migrations
                     PersonName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: false),
                     Duration = table.Column<int>(type: "INTEGER", nullable: false),
                     SuccessRating = table.Column<int>(type: "INTEGER", nullable: false),
-                    Comment = table.Column<string>(type: "TEXT", nullable: false),
+                    Comment = table.Column<string>(type: "TEXT", nullable: true),
                     SessionId = table.Column<int>(type: "INTEGER", nullable: false),
                     Date = table.Column<DateTime>(type: "TEXT", nullable: false),
                     UserId = table.Column<int>(type: "INTEGER", nullable: false)
@@ -92,6 +107,9 @@ namespace projektas.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Conversations");
+
+            migrationBuilder.DropTable(
+                name: "GeneralNotes");
 
             migrationBuilder.DropTable(
                 name: "SessionsList");

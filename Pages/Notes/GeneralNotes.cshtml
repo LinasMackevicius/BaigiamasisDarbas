@@ -1,4 +1,5 @@
-﻿@page
+﻿﻿
+@page
 @model projektas.Pages.Notes.GeneralNotesModel
 @{
     ViewData["Title"] = "General Notes";
@@ -32,11 +33,11 @@
                     <div class="modal-body">
                         <div class="mb-3">
                             <label for="Note_Title" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="Note_Title" name="Note.Title" placeholder="Enter title">
+                            <input type="text" class="form-control" id="Note_Title" name="Note.Title" placeholder="Enter title" asp-for="Note.Title">
                         </div>
                         <div class="mb-3">
                             <label for="Note_Content" class="form-label">Content</label>
-                            <textarea class="form-control" id="Note_Content" name="Note.Content" rows="4" placeholder="Enter content"></textarea>
+                            <textarea class="form-control" id="Note_Content" name="Note.Content" rows="4" placeholder="Enter content" asp-for="Note.Content"></textarea>
                         </div>
                     </div>
 

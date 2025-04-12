@@ -11,8 +11,8 @@ using projektas.Data;
 namespace projektas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250407124129_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250412100217_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,7 +27,6 @@ namespace projektas.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Comment")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Date")
@@ -55,6 +54,28 @@ namespace projektas.Migrations
                     b.HasIndex("SessionId");
 
                     b.ToTable("Conversations");
+                });
+
+            modelBuilder.Entity("projektas.Models.GeneralNote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("GeneralNotes");
                 });
 
             modelBuilder.Entity("projektas.Models.Session", b =>
