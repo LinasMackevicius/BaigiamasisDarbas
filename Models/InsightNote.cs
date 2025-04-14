@@ -2,7 +2,7 @@
 
 namespace projektas.Models
 {
-    public class GeneralNote
+    public class InsightNote
     {
         public int Id { get; set; }
 

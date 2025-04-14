@@ -14,6 +14,6 @@ namespace projektas.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Session> SessionsList { get; set; }
         public DbSet<Conversation> Conversations { get; set; }
-        public DbSet<GeneralNote> GeneralNotes { get; set; }
+        public DbSet<InsightNote> InsightNotes { get; set; }
     }
 }

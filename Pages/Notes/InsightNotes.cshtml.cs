@@ -3,23 +3,29 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using projektas.Models;
 using projektas.Data;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace projektas.Pages.Notes
 {
-    public class GeneralNotesModel : PageModel
+    public class InsightNotesModel : PageModel
     {
         private readonly ApplicationDbContext _context;
 
-        public GeneralNotesModel(ApplicationDbContext context)
+        public InsightNotesModel(ApplicationDbContext context)
         {
             _context = context;
         }
 
         [BindProperty]
-        public GeneralNote? Note { get; set; }
+        public InsightNote? Note { get; set; }
+
+        public List<InsightNote>? InsightNotesList { get; set; } = new();
 
         public void OnGet()
         {
+            InsightNotesList = _context.InsightNotes
+                .ToList();
         }
 
         public IActionResult OnPost()
@@ -28,11 +34,10 @@ namespace projektas.Pages.Notes
             {
                 return Page();
             }
+            _context.InsightNotes.Add(Note);
+            _context.SaveChanges();
 
-            _context.GeneralNotes.Add(Note);
-            _context.SaveChanges(); // inserts into DB
-
-            return RedirectToPage(); // refresh the page
+            return RedirectToPage();
         }
     }
 }

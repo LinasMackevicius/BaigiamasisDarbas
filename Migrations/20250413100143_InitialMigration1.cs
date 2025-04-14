@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace projektas.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialMigration1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "GeneralNotes",
+                name: "InsightNotes",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
@@ -23,7 +23,7 @@ namespace projektas.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GeneralNotes", x => x.Id);
+                    table.PrimaryKey("PK_InsightNotes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -109,7 +109,7 @@ namespace projektas.Migrations
                 name: "Conversations");
 
             migrationBuilder.DropTable(
-                name: "GeneralNotes");
+                name: "InsightNotes");
 
             migrationBuilder.DropTable(
                 name: "SessionsList");

@@ -11,8 +11,8 @@ using projektas.Data;
 namespace projektas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250412100217_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20250413100143_InitialMigration1")]
+    partial class InitialMigration1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,7 +56,7 @@ namespace projektas.Migrations
                     b.ToTable("Conversations");
                 });
 
-            modelBuilder.Entity("projektas.Models.GeneralNote", b =>
+            modelBuilder.Entity("projektas.Models.InsightNote", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -75,7 +75,7 @@ namespace projektas.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("GeneralNotes");
+                    b.ToTable("InsightNotes");
                 });
 
             modelBuilder.Entity("projektas.Models.Session", b =>
