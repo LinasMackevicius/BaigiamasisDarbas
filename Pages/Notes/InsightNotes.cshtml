@@ -4,6 +4,9 @@
 @{
 	ViewData["Title"] = "Insight Notes";
 }
+
+<h2>Insight Notes</h2>
+
 <!-- Top-left button -->
 <div class="p-3">
 	<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#noteModal">
@@ -24,6 +27,7 @@
 				<div class="modal-body">
 					<div class="mb-3">
 						<label for="Note_Title" class="form-label">Title</label>
+                        <input type="hidden" id="Note_Id" name="Note.Id" asp-for="Note.Id" />
 						<input type="text" class="form-control" id="Note_Title" name="Note.Title" placeholder="Enter title" asp-for="Note.Title">
 					</div>
 					<div class="mb-3">
@@ -40,28 +44,67 @@
 	</div>
 </div>
 
-<div class="accordion" id="InsightNotesAccordion">
-	@foreach (var note in Model.InsightNotesList)
-	{
-		var noteId = $"note-{note.Id}";
-		<div class="accordion-item">
-			<h2 class="accordion-header" id="heading-@noteId">
-				<button class="accordion-button collapsed"
-						type="button"
-						data-bs-toggle="collapse"
-						data-bs-target="#collapse-@noteId"
-						aria-controls="collapse-@noteId">
-					<strong>@note.Title</strong>
-				</button>
-			</h2>
-			<div id="collapse-@noteId"
-				 class="accordion-collapse collapse"
-				 aria-labelledby="heading-@noteId">
-				<div class="accordion-body">
-					@note.Content
-				</div>
-			</div>
-		</div>
-	}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-7">
+            <!-- 6/12 = 50% -->
+            <div class="accordion" id="InsightNotesAccordion">
+                @foreach (var note in Model.InsightNotesList)
+                {
+                    var noteId = $"note-{note.Id}";
+                    <div class="accordion-item mb-5">
+                        <h2 class="accordion-header" id="heading-@noteId">
+                            <button class="accordion-button collapsed"
+                                    type="button"
+                                    data-bs-toggle="collapse"
+                                    data-bs-target="#collapse-@noteId"
+                                    aria-controls="collapse-@noteId">
+                                <strong>@note.Title</strong>
+                            </button>
+                        </h2>
+                        <div id="collapse-@noteId"
+                             class="accordion-collapse collapse"
+                             aria-labelledby="heading-@noteId">
+                            <div class="accordion-body d-flex justify-content-between align-items-start">
+                                <div>@note.Content</div>
+                                <!-- ✏️ Pencil button -->
+                                <button type="button"
+                                        class="btn btn-sm btn-outline-secondary ms-2"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#noteModal"
+                                        data-note-id="@note.Id"
+                                        data-note-title="@note.Title"
+                                        data-note-content="@note.Content">
+                                    ✏️
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </div>
 
+
+<script>
+	document.addEventListener('DOMContentLoaded', function () {
+		const noteModal = document.getElementById('noteModal');
+
+		noteModal.addEventListener('show.bs.modal', function (event) {
+			const button = event.relatedTarget;
+			const noteId = button.getAttribute('data-note-id');
+			const noteTitle = button.getAttribute('data-note-title');
+			const noteContent = button.getAttribute('data-note-content');
+
+			// Set form fields
+			document.getElementById('Note_Id').value = noteId || 0;
+			document.getElementById('Note_Title').value = noteTitle || '';
+			document.getElementById('Note_Content').value = noteContent || '';
+
+			// Change modal title based on mode
+			document.getElementById('noteModalLabel').innerText =
+				noteId ? 'Edit Note' : 'New Note';
+		});
+	});
+</script>
