@@ -11,8 +11,8 @@ using projektas.Data;
 namespace projektas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250413100143_InitialMigration1")]
-    partial class InitialMigration1
+    [Migration("20250420101202_NextMigration")]
+    partial class NextMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

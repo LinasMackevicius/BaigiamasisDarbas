@@ -25,10 +25,6 @@
 </form>
 
 <div class="accordion" id="sessionsAccordion">
-    @*   
-        @- prasideda C# kodas;
-        foreach - ciklas, kuris paima kiekvieną session objektą iš Model.SessionsList sąrašo.
-    *@
     @foreach (var session in Model.SessionsList)
     {
         string sessionId = $"session-{session.Id}";

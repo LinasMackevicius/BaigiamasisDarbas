@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace projektas.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration1 : Migration
+    public partial class NextMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
