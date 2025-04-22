@@ -62,11 +62,11 @@
         </div>
     </div>
 
-    <div class="conversations-list">
+    <div class="conversations-list text-light">
         <h4>Conversations</h4>
         <div class="table-responsive">
-            <table class="table table-bordered">
-                <thead>
+            <table class="table table-dark table-bordered table-hover align-middle">
+                <thead class="table-secondary text-dark">
                     <tr>
                         <th>Person's Name</th>
                         <th>Duration (minutes)</th>
@@ -75,10 +75,8 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                
                 <tbody id="conversationsTableBody">
-                <!-- Rows will be added dynamically here -->
-        
+                    <!-- Rows will be added dynamically here -->
                 </tbody>
             </table>
         </div>
@@ -94,9 +92,11 @@
             </div>
         </div>
     </div>
+
     <div class="session-actions d-grid gap-2 d-md-flex justify-content-md-end">
         <button type="button" class="btn btn-danger mb-2" onclick="endSession()">End Session</button>
     </div>
+
 </form>
 
 <script src="~/js/active_session.js" asp-append-version="true"></script>

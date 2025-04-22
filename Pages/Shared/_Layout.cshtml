@@ -13,14 +13,14 @@
         @if (!Context.Request.Path.Value.Contains("/Account/Login") && !Context.Request.Path.Value.Contains("/Account/Register"))
         {
             <!-- Primary Navigation Bar -->
-            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm">
                 <div class="container d-flex justify-content-between">
                     <!-- Left-aligned navigation links -->
                     <div class="navbar-nav">
-                        <a class="nav-link text-dark" asp-page="/Index">Home</a>
-                        <a class="nav-link text-dark" asp-page="/Sessions/ActiveSession">Sessions</a>
-                        <a class="nav-link text-dark" asp-page="/Statistics/Monthly_Report">Statistics</a>
-                        <a class="nav-link text-dark" asp-page="/Notes/InsightNotes">Notes&Insights</a>
+                        <a class="nav-link" asp-page="/Index">Home</a>
+                        <a class="nav-link" asp-page="/Sessions/ActiveSession">Sessions</a>
+                        <a class="nav-link" asp-page="/Statistics/Monthly_Report">Statistics</a>
+                        <a class="nav-link" asp-page="/Notes/InsightNotes">Notes&Insights</a>
                     </div>
 
                     <!-- Right-aligned login/logout section -->
@@ -36,27 +36,25 @@
                 </div>
             </nav>
 
-
-            <!-- Secondary Navigation Bar for Subpages -->
-            
-                var path = Context.Request.Path.ToString().ToLower();
+          
+           
+            var path = Context.Request.Path.ToString().ToLower();
             
 
             @if (path.StartsWith("/sessions"))
             {
-                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom secondary-nav">
+                <nav class="navbar navbar-expand-sm navbar-toggleable-sm secondary-nav">
                     <div class="container">
-                        <a class="nav-link text-dark" asp-page="/Sessions/ActiveSession">Active Session</a>
-                        <a class="nav-link text-dark" asp-page="/Sessions/Past_Sessions">Past Sessions</a>
+                        <a class="nav-link" asp-page="/Sessions/ActiveSession">Active Session</a>
+                        <a class="nav-link" asp-page="/Sessions/Past_Sessions">Past Sessions</a>
                     </div>
                 </nav>
             }
             else if (path.StartsWith("/statistics"))
             {
-                <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom secondary-nav">
+                <nav class="navbar navbar-expand-sm navbar-toggleable-sm secondary-nav">
                     <div class="container">
-                        @* <a class="nav-link text-dark" asp-page="/Statistics/Session_Report">Session Report</a> *@
-                        <a class="nav-link text-dark" asp-page="/Statistics/Monthly_Report">Monthly Report</a>
+                        <a class="nav-link" asp-page="/Statistics/Monthly_Report">Monthly Report</a>
                     </div>
                 </nav>
             }
@@ -68,8 +66,6 @@
             @RenderBody()
         </main>
     </div>
-
-   
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
