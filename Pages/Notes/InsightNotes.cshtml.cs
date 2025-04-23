@@ -5,6 +5,8 @@ using projektas.Data;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace projektas.Pages.Notes
 {
@@ -22,14 +24,6 @@ namespace projektas.Pages.Notes
         public InsightNote Note { get; set; }
 
         public List<InsightNote> InsightNotesList { get; set; } = new();
-
-        public void OnGet()
-        {
-            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
-            InsightNotesList = _context.InsightNotes
-                .Where(n => n.UserId == userId)
-                .ToList();
-        }
 
         public async Task<IActionResult> OnPostAsync()
         {
@@ -77,5 +71,26 @@ namespace projektas.Pages.Notes
 
             return RedirectToPage();
         }
+        public List<SelectListItem> SessionOptions { get; set; }
+
+        public async Task OnGetAsync()
+        {
+
+            int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
+            InsightNotesList = _context.InsightNotes
+                .Where(n => n.UserId == userId)
+                .ToList();
+       
+            SessionOptions = await _context.SessionsList
+                .OrderByDescending(s => s.SessionDate)
+                .Select(s => new SelectListItem
+                {
+                    Value = s.Id.ToString(),
+                    Text = $"{s.SessionDate:yyyy.MM.dd} - {s.Place}"
+                }).ToListAsync();
+
+            InsightNotesList = await _context.InsightNotes.Include(n => n.Session).ToListAsync();
+        }
+
     }
 }

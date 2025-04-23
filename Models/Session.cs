@@ -51,6 +51,7 @@ namespace projektas.Models
         public int UserId { get; set; }
         public User? User { get; set; } // Foreign key relationship to User
 
-        public List<Conversation> Conversations { get; set; } // Navigation property        
+        public List<Conversation> Conversations { get; set; } // Navigation property
+        public ICollection<InsightNote> InsightNotes { get; set; }
     }
 }

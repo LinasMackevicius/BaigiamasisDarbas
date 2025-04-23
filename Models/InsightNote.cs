@@ -13,6 +13,9 @@ namespace projektas.Models
         public string Content { get; set; } = string.Empty;
 
         public int UserId { get; set; }
+
+        public int? SessionId { get; set; }
+        public Session? Session { get; set; }
     }
 }
 

@@ -37,6 +37,13 @@
 					</div>
 				</div>
 
+                <div class="mb-3">
+                    <label for="Note_SessionId" class="form-label">Linked Session</label>
+                    <select class="form-select" id="Note_SessionId" name="Note.SessionId" asp-items="Model.SessionOptions">
+                        <option value="">-- Select a session --</option>
+                    </select>
+                </div>
+
 				<div class="modal-footer d-flex justify-content-between">
 					<button type="submit" class="btn btn-success">Save Note</button>
 				</div>
@@ -70,6 +77,16 @@
                                     <div class="text-wrap text-break" style="white-space: pre-wrap; word-wrap: break-word; max-width: 85%;">
                                         @note.Content
                                     </div>
+
+                                    @if (note.Session != null)
+                                    {
+                                        <div class="mt-2">
+                                            <strong>From Session:</strong>
+                                            <a href="/Sessions/Past_Sessions#session-@note.Session.Id">
+                                                @note.Session.SessionDate.ToString("yyyy.MM.dd") - @note.Session.Place
+                                            </a>
+                                        </div>
+                                    }
 
                                     <!-- Three Dots Menu -->
                                     <div class="dropdown ms-3">
