@@ -1,0 +1,39 @@
+﻿@model projektas.Pages.Notes.InsightNotesModel
+
+<!-- Modal with form -->
+<div class="modal fade" id="noteModal" tabindex="-1" aria-labelledby="noteModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="noteModalLabel">New Note</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="Note_Title" class="form-label">Title</label>
+                        <input type="hidden" id="Note_Id" name="Note.Id" asp-for="Note.Id" />
+                        <input type="text" class="form-control" id="Note_Title" name="Note.Title" placeholder="Enter title" asp-for="Note.Title">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Note_Content" class="form-label">Content</label>
+                        <textarea class="form-control" id="Note_Content" name="Note.Content" rows="4" placeholder="Enter content" asp-for="Note.Content"></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="Note_SessionId" class="form-label">Linked Session</label>
+                        <select class="form-select" id="Note_SessionId" name="Note.SessionId" asp-items="Model.SessionOptions">
+                            <option value="">-- Select a session --</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer d-flex justify-content-between">
+                    <button type="submit" class="btn btn-success">Save Note</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
