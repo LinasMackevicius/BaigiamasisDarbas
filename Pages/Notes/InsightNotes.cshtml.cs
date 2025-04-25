@@ -23,6 +23,9 @@ namespace projektas.Pages.Notes
         [BindProperty]
         public InsightNote Note { get; set; }
 
+        [BindProperty]
+        public int DeleteNoteId { get; set; }
+
         public List<InsightNote> InsightNotesList { get; set; } = new();
 
         public async Task<IActionResult> OnPostAsync()
@@ -57,12 +60,12 @@ namespace projektas.Pages.Notes
         {
             int userId = HttpContext.Session.GetInt32("UserId") ?? 0;
 
-            if (Note.Id == 0)
+            if (DeleteNoteId == 0)
             {
                 return RedirectToPage();
             }
 
-            var noteToDelete = await _context.InsightNotes.FindAsync(Note.Id);
+            var noteToDelete = await _context.InsightNotes.FindAsync(DeleteNoteId);
             if (noteToDelete != null && noteToDelete.UserId == userId)
             {
                 _context.InsightNotes.Remove(noteToDelete);
@@ -71,6 +74,9 @@ namespace projektas.Pages.Notes
 
             return RedirectToPage();
         }
+
+
+
         public List<SelectListItem> SessionOptions { get; set; }
 
         public async Task OnGetAsync()
