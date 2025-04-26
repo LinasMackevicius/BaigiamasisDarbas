@@ -39,22 +39,26 @@ namespace projektas.Pages.Notes
 
             if (Note.Id == 0)
             {
+                // Create new note
                 Note.UserId = userId;
                 _context.InsightNotes.Add(Note);
             }
             else
             {
+                // Edit existing note
                 var existingNote = await _context.InsightNotes.FindAsync(Note.Id);
                 if (existingNote != null && existingNote.UserId == userId)
                 {
                     existingNote.Title = Note.Title;
                     existingNote.Content = Note.Content;
+                    existingNote.SessionId = Note.SessionId; // ?? ALLOW CHANGING SESSION HERE
                 }
             }
 
             await _context.SaveChangesAsync();
             return RedirectToPage();
         }
+
 
         public async Task<IActionResult> OnPostDeleteAsync()
         {

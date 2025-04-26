@@ -65,9 +65,11 @@
 													data-bs-target="#noteModal"
 													data-note-id="@note.Id"
 													data-note-title="@note.Title"
-													data-note-content="@note.Content">
+													data-note-content="@note.Content"
+													data-note-session-id="@note.SessionId">
 												✏️ Edit
 											</button>
+
 										</li>
 										<li>
 											<button type="button"
@@ -101,33 +103,25 @@
 			const noteId = button.getAttribute('data-note-id');
 			const noteTitle = button.getAttribute('data-note-title');
 			const noteContent = button.getAttribute('data-note-content');
+			const noteSessionId = button.getAttribute('data-note-session-id'); // NEW
 
 			document.getElementById('Note_Id').value = noteId || 0;
 			document.getElementById('Note_Title').value = noteTitle || '';
 			document.getElementById('Note_Content').value = noteContent || '';
 
+			// 💥 Set the selected session
+			if (noteSessionId) {
+				document.getElementById('Note_SessionId').value = noteSessionId;
+			} else {
+				document.getElementById('Note_SessionId').selectedIndex = 0;
+			}
+
 			// Update modal title
 			document.getElementById('noteModalLabel').innerText =
 				noteId ? 'Edit Note' : 'New Note';
-
-			// Show/hide delete button
-			const deleteBtn = noteModal.querySelector('[name="handler"][value="delete"]');
-			if (noteId) {
-				deleteBtn.classList.remove('d-none');
-			} else {
-				deleteBtn.classList.add('d-none');
-			}
 		});
 	});
 
-
-	document.querySelectorAll(".delete-button").forEach(button => {
-		button.addEventListener("click", function () {
-			const noteId = this.getAttribute("data-note-id");
-			 console.log("Note to delete:", noteId);
-			document.getElementById("deleteNoteId").value = noteId;
-		});
-	});
 
 
 </script>

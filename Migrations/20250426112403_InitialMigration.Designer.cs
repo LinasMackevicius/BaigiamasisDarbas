@@ -11,8 +11,8 @@ using projektas.Data;
 namespace projektas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250425094951_InitMigration")]
-    partial class InitMigration
+    [Migration("20250426112403_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -158,7 +158,7 @@ namespace projektas.Migrations
             modelBuilder.Entity("projektas.Models.InsightNote", b =>
                 {
                     b.HasOne("projektas.Models.Session", "Session")
-                        .WithMany("InsightNotes")
+                        .WithMany()
                         .HasForeignKey("SessionId");
 
                     b.Navigation("Session");
@@ -178,8 +178,6 @@ namespace projektas.Migrations
             modelBuilder.Entity("projektas.Models.Session", b =>
                 {
                     b.Navigation("Conversations");
-
-                    b.Navigation("InsightNotes");
                 });
 #pragma warning restore 612, 618
         }
