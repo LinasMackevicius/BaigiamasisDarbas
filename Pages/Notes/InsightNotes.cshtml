@@ -4,6 +4,28 @@
 @{
 	ViewData["Title"] = "Insight Notes";
 }
+<style>
+	/* Glow animation for linked note */
+	@@keyframes glow {
+		0% {
+			box-shadow: 0 0 2px #4FC3F7, 0 0 4px #4FC3F7;
+			border: 2px solid #4FC3F7;
+		}
+
+		50% {
+			box-shadow: 0 0 8px #4FC3F7, 0 0 12px #4FC3F7;
+		}
+
+		100% {
+			box-shadow: 0 0 2px #4FC3F7, 0 0 4px #4FC3F7;
+		}
+	}
+
+	.highlighted-note {
+		animation: glow 1s ease-in-out 0s 2 alternate;
+		border-radius: 12px;
+	}
+</style>
 
 <h2>Insight Notes</h2>
 
@@ -22,7 +44,7 @@
 				@foreach (var note in Model.InsightNotesList)
 				{
 					var noteId = $"note-{note.Id}";
-					<div class="accordion-item mb-5">
+					<div class="accordion-item mb-5" id="@noteId">
 						<h2 class="accordion-header" id="heading-@noteId">
 							<button class="accordion-button collapsed"
 									type="button"
@@ -122,6 +144,33 @@
 		});
 	});
 
+	document.addEventListener('DOMContentLoaded', function () {
+		const hash = window.location.hash;
+		if (hash && hash.startsWith("#note-")) {
+			const noteId = hash.substring(1); // remove "#"
+			const collapseEl = document.getElementById("collapse-" + noteId);
+			const buttonEl = document.querySelector(`[data-bs-target="#collapse-${noteId}"]`);
+			const parentItem = document.getElementById(noteId); // The outer accordion-item
+
+			if (collapseEl && buttonEl && parentItem) {
+				// Force expand like Past Sessions
+				buttonEl.classList.remove('collapsed');
+				buttonEl.setAttribute('aria-expanded', 'true');
+				collapseEl.classList.add('show');
+
+				// Scroll to view
+				parentItem.scrollIntoView({ behavior: 'smooth' });
+
+				// Add glowing animation
+				parentItem.classList.add('highlighted-note');
+
+				// Optional: Remove glow after 5 seconds
+				setTimeout(() => {
+					parentItem.classList.remove('highlighted-note');
+				}, 5000);
+			}
+		}
+	});
 
 
 </script>

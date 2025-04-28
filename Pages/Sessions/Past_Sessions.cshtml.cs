@@ -31,6 +31,7 @@ namespace projektas.Pages.Sessions
         {
             var query = _context.SessionsList
                 .Include(s => s.Conversations)
+                .Include(s => s.InsightNotes)
                 .Where(s => s.UserId == HttpContext.Session.GetInt32("UserId")) // Only the logged-in user's sessions
                 .OrderByDescending(s => s.SessionDate)
                 .AsQueryable();

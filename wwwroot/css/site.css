@@ -67,8 +67,8 @@ body {
 .accordion-item {
     background-color: #2a2a3a;
     color: #f0f0f0;
-    border: none;
-    border-radius: 5px;
+    border: 2px solid transparent; /* Always reserve space */
+    border-radius: 12px; /* Keep same rounding */
 }
 
 .accordion-button {

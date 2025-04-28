@@ -52,6 +52,8 @@ namespace projektas.Models
         public User? User { get; set; } // Foreign key relationship to User
 
         public List<Conversation> Conversations { get; set; } // Navigation property
-        
+
+        public List<InsightNote> InsightNotes { get; set; } = new List<InsightNote>();
+
     }
 }

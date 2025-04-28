@@ -4,7 +4,33 @@
     ViewData["Title"] = "Past Sessions";
 }
 
+<style>
+    /* Glow animation for linked note */
+    @@keyframes glow {
+        0% {
+            box-shadow: 0 0 2px #4FC3F7, 0 0 4px #4FC3F7;
+            border: 2px solid #4FC3F7;
+        }
+
+        50% {
+            box-shadow: 0 0 8px #4FC3F7, 0 0 12px #4FC3F7;
+        }
+
+        100% {
+            box-shadow: 0 0 2px #4FC3F7, 0 0 4px #4FC3F7;
+        }
+    }
+
+    .highlighted-note {
+        animation: glow 1s ease-in-out 0s 2 alternate;
+        border-radius: 12px;
+    }
+</style>
+
+
+
 <h2>Past Sessions</h2>
+
 
 <!-- Filter Form -->
 <form method="get" class="mb-4">
@@ -19,7 +45,7 @@
         </div>
         <div class="col-md-3 align-self-end">
             <button type="submit" class="btn btn-primary">Apply Filters</button>
-            <a href="/Sessions/Past_Sessions" class="btn btn-secondary">Clear Filters</a> <!-- Clear Filters button -->
+            <a href="/Sessions/Past_Sessions" class="btn btn-secondary">Clear Filters</a>
         </div>
     </div>
 </form>
@@ -29,7 +55,7 @@
     {
         string sessionId = $"session-{session.Id}";
 
-        <div class="accordion-item">
+        <div class="accordion-item mb-5" id="@sessionId">
             <h2 class="accordion-header" id="heading-@sessionId">
                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-@sessionId" aria-expanded="false" aria-controls="collapse-@sessionId">
                     <strong>@session.SessionDate.ToString("yyyy.MM.dd")</strong> - @session.SessionType - @session.TimeOfADayStart - @session.Place - @session.Goals
@@ -51,8 +77,51 @@
                             </li>
                         }
                     </ul>
+
+                    @if (session.InsightNotes != null && session.InsightNotes.Any())
+                    {
+                        <h5 class="mt-4">Linked Notes:</h5>
+                        <ul>
+                            @foreach (var note in session.InsightNotes)
+                            {
+                                <li>
+                                    <a href="/Notes/InsightNotes#note-@note.Id">
+                                        @note.Title
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    }
                 </div>
             </div>
         </div>
     }
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const hash = window.location.hash; // Example: "#session-42"
+        if (hash) {
+            const collapseElement = document.querySelector(hash.replace('#', '#collapse-'));
+            const buttonElement = document.querySelector(`button[data-bs-target="${hash.replace('#', '#collapse-')}"]`);
+            const parentItem = document.querySelector(hash); // Example: "#session-42"
+
+            if (collapseElement && buttonElement) {
+                // Expand the session
+                buttonElement.classList.remove('collapsed');
+                buttonElement.setAttribute('aria-expanded', 'true');
+                collapseElement.classList.add('show');
+
+                // Add glowing effect
+                if (parentItem) {
+                    parentItem.classList.add('highlighted-note');
+
+                    // Optional: Remove glow after 5 seconds
+                    setTimeout(() => {
+                        parentItem.classList.remove('highlighted-note');
+                    }, 5000);
+                }
+            }
+        }
+    });
+</script>
