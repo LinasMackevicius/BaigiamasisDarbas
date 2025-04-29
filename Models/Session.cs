@@ -45,7 +45,6 @@ namespace projektas.Models
         public string Place { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Goal is required.")]
-        [RegularExpression(@"^\s*\w+\s*$", ErrorMessage = "Enter at least one word.")]
         public string Goals { get; set; } = string.Empty;
 
         public int UserId { get; set; }

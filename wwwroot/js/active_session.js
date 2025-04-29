@@ -1,8 +1,11 @@
-﻿let conversationData = []; // Store conversation data locally
+﻿let conversationData = [];
 let currentCommentInput = null;
 
-// Load data from Local Storage on page load (for temporary saving)
 window.addEventListener('load', () => {
+    // Initialize date on first load
+    initializeDate();
+
+    // Load saved data from localStorage
     const savedData = JSON.parse(localStorage.getItem('activeSessionData'));
     if (savedData) {
         document.getElementById('date').value = savedData.date;
@@ -11,64 +14,69 @@ window.addEventListener('load', () => {
         conversationData = savedData.conversations || [];
         renderConversations();
     }
+
+    // If no localStorage data, try restoring from server hidden field
+    if (conversationData.length === 0) {
+        const storedJson = document.getElementById('conversationDataInput').value;
+        if (storedJson) {
+            try {
+                const conversations = JSON.parse(storedJson);
+                for (const convo of conversations) {
+                    addConversationRow(convo);
+                }
+            } catch (err) {
+                console.error("Error parsing server-persisted conversation data:", err);
+            }
+        }
+    }
 });
 
-// Save the current session data to Local Storage only
+// Save to localStorage only (does not submit to server)
 function cacheSessionDataToBrowserStorage() {
     const sessionData = {
         date: document.getElementById('date').value,
-        place: document.getElementById('place').value, 
+        place: document.getElementById('place').value,
         goals: document.getElementById('goals').value,
         conversations: conversationData
     };
     localStorage.setItem('activeSessionData', JSON.stringify(sessionData));
-    console.log("Session temporarily saved in Local Storage:", sessionData);
     showPopupMessage('Saved to browser local storage!');
+    console.log("Session temporarily saved:", sessionData);
 }
 
-// Submit the form to the server and clear Local Storage
+// Submit the form to the server
 function endSession() {
     document.getElementById("conversationDataInput").value = JSON.stringify(conversationData);
     document.getElementById("SessionAndConversationInfoForm").submit();
     localStorage.removeItem('activeSessionData');
-    console.log("End Session: Data submitted and Local Storage cleared.");
+    console.log("Form submitted. LocalStorage cleared.");
 }
 
-function showPopupMessage(message) {
-    let popup = document.getElementById('popupMessage');
-    if (!popup) {
-        popup = document.createElement('div');
-        popup.id = 'popupMessage';
-        popup.style.position = 'fixed';
-        popup.style.top = '20px';
-        popup.style.left = '50%';
-        popup.style.transform = 'translateX(-50%)';
-        popup.style.backgroundColor = '#d4edda';
-        popup.style.color = '#155724';
-        popup.style.padding = '10px 20px';
-        popup.style.borderRadius = '5px';
-        popup.style.boxShadow = '0 0 10px rgba(0, 0, 0, 0.1)';
-        popup.style.zIndex = '1000';
-        popup.style.fontWeight = 'bold';
-        popup.style.textAlign = 'center';
-        popup.style.minWidth = '200px';
-        document.body.appendChild(popup);
-    }
-    popup.innerText = message;
-    popup.style.display = 'block';
-    setTimeout(() => {
-        popup.style.display = 'none';
-    }, 3000);
+function addConversationRow(data = {}) {
+    const conversation = {
+        personName: data.personName || '',
+        duration: data.duration || 0,
+        successRating: data.successRating || 1,
+        comment: data.comment || ''
+    };
+    conversationData.push(conversation);
+    renderConversations();
 }
 
-function autoResizeTextarea(textarea) {
-    textarea.style.height = 'auto';
-    textarea.style.height = textarea.scrollHeight + 'px';
+function updateConversation(index, field, value) {
+    conversationData[index][field] = value;
+    document.getElementById("conversationDataInput").value = JSON.stringify(conversationData);
+}
+
+function deleteRow(button, index) {
+    conversationData.splice(index, 1);
+    renderConversations();
 }
 
 function renderConversations() {
     const tableBody = document.getElementById('conversationsTableBody');
-    tableBody.innerHTML = ''; // Clear all existing rows
+    tableBody.innerHTML = '';
+
     conversationData.forEach((conversation, index) => {
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -84,48 +92,24 @@ function renderConversations() {
                 </select>
             </td>
             <td>
-                <div class="resizable-comment">
-                    <textarea class="form-control"
-                        rows="1"
-                        oninput="updateConversation(${index}, 'comment', this.value); autoResizeTextarea(this);"
-                    >${conversation.comment}</textarea>
-                </div>
+                <textarea class="form-control" rows="1" oninput="updateConversation(${index}, 'comment', this.value); autoResizeTextarea(this);">${conversation.comment}</textarea>
             </td>
             <td><button type="button" class="btn btn-danger" onclick="deleteRow(this, ${index})">Delete</button></td>
         `;
         tableBody.appendChild(row);
 
-        // Auto-resize the textarea initially
         const textarea = row.querySelector('textarea');
         autoResizeTextarea(textarea);
     });
-}
 
-// Function to add a new conversation row
-function addConversationRow() {
-    const conversation = {
-        personName: '',
-        duration: 0,
-        successRating: 1,
-        comment: ''
-    };
-    conversationData.push(conversation);
-    renderConversations();
-}
-
-// Function to update conversation data when any field changes
-function updateConversation(index, field, value) {
-    conversationData[index][field] = value;
     document.getElementById("conversationDataInput").value = JSON.stringify(conversationData);
 }
 
-// Function to delete a conversation row and update conversation data
-function deleteRow(button, index) {
-    conversationData.splice(index, 1);
-    renderConversations();
+function autoResizeTextarea(textarea) {
+    textarea.style.height = 'auto';
+    textarea.style.height = textarea.scrollHeight + 'px';
 }
 
-// Function to set the formatted date on page load or date change
 function initializeDate() {
     const dateInput = document.getElementById('date');
     if (!dateInput.value) {
@@ -135,17 +119,13 @@ function initializeDate() {
     updateFormattedDate();
 }
 
-// Function to update the formatted date field based on date picker value
 function updateFormattedDate() {
     const dateInput = document.getElementById('date');
     const formattedDateInput = document.getElementById('formattedDate');
     const date = new Date(dateInput.value);
-    const formattedDate = date.getFullYear() + '/' + String(date.getMonth() + 1).padStart(2, '0') + '/' + String(date.getDate()).padStart(2, '0');
-    formattedDateInput.value = formattedDate;
+    const formatted = `${date.getFullYear()}/${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
+    formattedDateInput.value = formatted;
 }
-
-// Initialize the date field on page load
-window.addEventListener('load', initializeDate);
 
 function updateSessionDuration() {
     const startTimeInput = document.getElementById('TimeOfADayStart');
@@ -163,23 +143,20 @@ function updateSessionDuration() {
     const [endHours, endMinutes] = endTimeInput.value.split(":").map(Number);
 
     const now = new Date();
-    const startTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), startHours, startMinutes);
-    const endTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), endHours, endMinutes);
+    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate(), startHours, startMinutes);
+    const end = new Date(now.getFullYear(), now.getMonth(), now.getDate(), endHours, endMinutes);
 
-    if (endTime < startTime) {
-        endTime.setDate(endTime.getDate() + 1);
-    }
+    if (end < start) end.setDate(end.getDate() + 1);
 
-    let diff = (endTime - startTime) / 60000; // Convert milliseconds to minutes
-    const diffHours = Math.floor(diff / 60);
-    const diffMinutes = diff % 60;
+    const diff = (end - start) / 60000;
+    const hours = Math.floor(diff / 60);
+    const minutes = diff % 60;
 
-    durationInput.value = `${diffHours}h ${diffMinutes}m`;
-    sessionDurationForDb.value = `${diffHours}:${diffMinutes}`; // Format for server-side binding
+    durationInput.value = `${hours}h ${minutes}m`;
+    sessionDurationForDb.value = `${hours}:${minutes}`;
 }
 
-// Attach event listeners when the DOM is fully loaded
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
     document.getElementById('TimeOfADayStart').addEventListener("change", updateSessionDuration);
     document.getElementById('TimeOfADayEnd').addEventListener("change", updateSessionDuration);
 });

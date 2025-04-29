@@ -77,7 +77,12 @@ namespace projektas.Pages.Sessions
 
         public async Task<IActionResult> OnPostEndSessionAsync()
         {
-            Console.WriteLine("OnPostEndSessionAsync called");
+            if (!ModelState.IsValid)
+            {
+                // Don't clear the session or conversations if model validation fails
+                return Page();
+            }
+
             await OnPostWriteSessionInfoToDatabaseAsync();
 
             // Reset Session to a new instance instead of resetting properties individually
