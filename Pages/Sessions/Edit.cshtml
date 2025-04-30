@@ -1,0 +1,67 @@
+﻿@page
+@model projektas.Pages.Sessions.EditModel
+@{
+    ViewData["Title"] = "Edit Session";
+}
+
+<h2>Edit Session</h2>
+
+<form method="post">
+    <input type="hidden" asp-for="Session.Id" />
+
+    <div class="mb-3">
+        <label asp-for="Session.SessionDate" class="form-label"></label>
+        <input asp-for="Session.SessionDate" class="form-control" type="date" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Session.SessionType" class="form-label"></label>
+        <input asp-for="Session.SessionType" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Session.TimeOfADayStart" class="form-label"></label>
+        <input asp-for="Session.TimeOfADayStart" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Session.Place" class="form-label"></label>
+        <input asp-for="Session.Place" class="form-control" />
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Session.Goals" class="form-label"></label>
+        <input asp-for="Session.Goals" class="form-control" />
+    </div>
+
+    <h4>Conversations</h4>
+    @for (int i = 0; i < Model.Session.Conversations.Count; i++)
+    {
+        <div class="border rounded p-3 mb-3">
+            <input type="hidden" asp-for="Session.Conversations[@i].Id" />
+
+            <div class="mb-2">
+                <label asp-for="Session.Conversations[@i].PersonName" class="form-label"></label>
+                <input asp-for="Session.Conversations[@i].PersonName" class="form-control" />
+            </div>
+
+            <div class="mb-2">
+                <label asp-for="Session.Conversations[@i].Duration" class="form-label"></label>
+                <input asp-for="Session.Conversations[@i].Duration" class="form-control" />
+            </div>
+
+            <div class="mb-2">
+                <label asp-for="Session.Conversations[@i].SuccessRating" class="form-label"></label>
+                <input asp-for="Session.Conversations[@i].SuccessRating" class="form-control" />
+            </div>
+
+            <div class="mb-2">
+                <label asp-for="Session.Conversations[@i].Comment" class="form-label"></label>
+                <textarea asp-for="Session.Conversations[@i].Comment" class="form-control"></textarea>
+            </div>
+        </div>
+    }
+
+    <button type="submit" class="btn btn-success">Save Changes</button>
+    <a asp-page="Past_Sessions" class="btn btn-secondary ms-2">Cancel</a>
+</form>

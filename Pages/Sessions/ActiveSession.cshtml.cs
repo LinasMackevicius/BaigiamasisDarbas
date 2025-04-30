@@ -40,6 +40,7 @@ namespace projektas.Pages.Sessions
         {
             if (!ModelState.IsValid)
             {
+                ConversationsJson = ConversationsJson ?? "[]";
                 return Page();
             }
 
@@ -79,7 +80,7 @@ namespace projektas.Pages.Sessions
         {
             if (!ModelState.IsValid)
             {
-                // Don't clear the session or conversations if model validation fails
+                ConversationsJson = ConversationsJson ?? "[]";
                 return Page();
             }
 
