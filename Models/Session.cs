@@ -25,7 +25,7 @@ namespace projektas.Models
         [DataType(DataType.Date)]
         public DateTime SessionDate { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Session type is required.")]
         public SessionType SessionType { get; set; }
 
         [Required]
@@ -39,10 +39,11 @@ namespace projektas.Models
         [Required]
         public TimeSpan SessionDuration { get; set; }
 
-        [Required(ErrorMessage = "Place is required.")]
-        [MinLength(5, ErrorMessage = "Place must be at least 3 characters.")]
-        [StringLength(60, ErrorMessage = "Place cannot be longer than 60 characters.")]
+        [Required(ErrorMessage = "Location is required.")]
+        [StringLength(60, MinimumLength = 3, ErrorMessage = "Location must be between 3 and 60 characters.")]
+        [RegularExpression(@"^[a-zA-Z0-9\s\-.,']+$", ErrorMessage = "Location can only contain letters, numbers, spaces, hyphens, commas, periods, and apostrophes.")]
         public string Place { get; set; } = string.Empty;
+
 
         [Required(ErrorMessage = "Goal is required.")]
         public string Goals { get; set; } = string.Empty;

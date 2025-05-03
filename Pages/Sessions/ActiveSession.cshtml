@@ -24,7 +24,6 @@
         <div class="mb-3">
             <label for="SessionType" class="form-label">Session Type</label>
             <select asp-for="Session.SessionType" id="SessionType" asp-items="Html.GetEnumSelectList<projektas.Models.SessionType>()" class="form-control w-50" required>
-                <option value="">-- Select Session Type --</option>
             </select>
             <span asp-validation-for="Session.SessionType" class="text-danger"></span>
         </div>
