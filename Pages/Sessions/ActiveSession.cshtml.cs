@@ -65,30 +65,11 @@ namespace projektas.Pages.Sessions
                         SuccessRating = conversation.SuccessRating,
                         Comment = conversation.Comment,
                         SessionId = Session.Id, // Link conversation to the saved session
-                        Date = Session.SessionDate, // Set the conversation date
-                        UserId = Session.UserId // Set the conversation user ID
                     };
                     _context.Conversations.Add(newConversation);
                 }
                 await _context.SaveChangesAsync();
             }
-
-            return RedirectToPage("/Sessions/ActiveSession");
-        }
-
-        public async Task<IActionResult> OnPostEndSessionAsync()
-        {
-            if (!ModelState.IsValid)
-            {
-                ConversationsJson = ConversationsJson ?? "[]";
-                return Page();
-            }
-
-            await OnPostWriteSessionInfoToDatabaseAsync();
-
-            // Reset Session to a new instance instead of resetting properties individually
-            Session = new Session { SessionDate = DateTime.Now };
-            ConversationsJson = "[]";
 
             return RedirectToPage("/Sessions/ActiveSession");
         }

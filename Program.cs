@@ -5,8 +5,6 @@ using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
-
-
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));

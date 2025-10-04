@@ -11,8 +11,8 @@ using projektas.Data;
 namespace projektas.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250502085239_Initial")]
-    partial class Initial
+    [Migration("20250731112948_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -30,9 +30,6 @@ namespace projektas.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("TEXT");
-
                     b.Property<int>("Duration")
                         .HasColumnType("INTEGER");
 
@@ -45,9 +42,6 @@ namespace projektas.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<int>("SuccessRating")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("UserId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");

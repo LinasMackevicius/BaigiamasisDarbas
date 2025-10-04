@@ -12,11 +12,6 @@ namespace projektas.Models
 
     public class Session
     {
-        public Session()
-        {
-            Conversations = new List<Conversation>(); // Initialize it
-        }
-
         [Key]
         public int Id { get; set; }
 
@@ -51,9 +46,7 @@ namespace projektas.Models
         public int UserId { get; set; }
         public User? User { get; set; } // Foreign key relationship to User
 
-        public List<Conversation> Conversations { get; set; } // Navigation property
-
+        public List<Conversation> Conversations { get; set; } = new List<Conversation>();
         public List<InsightNote> InsightNotes { get; set; } = new List<InsightNote>();
-
     }
 }

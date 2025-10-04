@@ -21,16 +21,7 @@ namespace projektas.Models
 
         [StringLength(1000)]
         public string? Comment { get; set; }
-
-        // Navigation and foreign key to Session
-        [ForeignKey(nameof(Session))]
         public int SessionId { get; set; }
         public Session Session { get; set; }
-
-        [DataType(DataType.Date)]
-        public DateTime Date { get; set; }
-
-        [Required]
-        public int UserId { get; set; }
     }
 }
